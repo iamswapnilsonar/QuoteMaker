@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="?android:colorBackground">
+
+  <com.thuytrinh.quotemaker.view.SquareView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom">
+
+    <view
+      android:id="@+id/colorsView"
+      class="android.support.v7.widget.RecyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center" />
+  </com.thuytrinh.quotemaker.view.SquareView>
+</FrameLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="raspberry">#a94682</color>
+  <color name="navy">#263a55</color>
+  <color name="grass">#97bc72</color>
+  <color name="teal">#018db1</color>
+  <color name="red">#e51f14</color>
+  <color name="yellow">#f3d213</color>
+  <color name="kelly_green">#23be19</color>
+  <color name="baby_blue">#bbf5e7</color>
+  <color name="heather_grey">#dee8ea</color>
+  <color name="black">#272727</color>
+  <color name="heather_grey_2">#f8f8f8</color>
+  <color name="gold">#ffa930</color>
+  <color name="eggplant">#554880</color>
+  <color name="dark_forest">#4c7c8a</color>
+  <color name="grass_2">#70bf88</color>
+  <color name="mint">#18c3a9</color>
+  <color name="heather_grey_3">#ebecee</color>
+  <color name="grass_3">#a0b58d</color>
+  <color name="fuchsia">#ee4996</color>
+  <color name="white">#ffffff</color>
+  <color name="blue">#37a5fb</color>
+  <color name="orange">#f24f1d</color>
+  <color name="baby_blue_2">#85c4b8</color>
+  <color name="brown">#8f543b</color>
+  <color name="creme">#f7f4e3</color>
+  <color name="royal_blue">#2b4195</color>
+</resources>
