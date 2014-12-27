@@ -48,9 +48,4 @@ public class AppModule {
   ColorPickerViewModel provideColorPickerViewModel(Context context, Bus eventBus) {
     return new ColorPickerViewModel(context, eventBus);
   }
-
-  @Provides
-  ThemesAdapter provideThemesAdapter(LayoutInflater inflater) {
-    return new ThemesAdapter(inflater);
-  }
 }

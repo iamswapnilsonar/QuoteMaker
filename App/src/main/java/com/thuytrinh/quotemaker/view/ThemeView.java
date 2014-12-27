@@ -7,15 +7,16 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.thuytrinh.quotemaker.R;
-import com.thuytrinh.quotemaker.viewmodel.ForViewModel;
+import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
 import com.thuytrinh.quotemaker.viewmodel.ThemeViewModel;
 
 import rx.Subscription;
 import rx.functions.Action1;
 
-public class ThemeView extends SquareView implements ForViewModel<ThemeViewModel> {
-  private ThemeViewModel viewModel;
+public class ThemeView extends SquareView {
+  public final ObservableProperty<ThemeViewModel> theme = new ObservableProperty<>();
   private View checkMarkView;
+  private View colorView;
   private Subscription subscription;
 
   public ThemeView(Context context) {
@@ -36,40 +37,49 @@ public class ThemeView extends SquareView implements ForViewModel<ThemeViewModel
   }
 
   @Override
-  public ThemeViewModel getViewModel() {
-    return viewModel;
-  }
+  protected void onDetachedFromWindow() {
+    super.onDetachedFromWindow();
 
-  public void setViewModel(ThemeViewModel viewModel) {
-    this.viewModel = viewModel;
-    bindToViewModel();
+    if (subscription != null) {
+      subscription.unsubscribe();
+    }
   }
 
   @Override
   protected void onFinishInflate() {
     super.onFinishInflate();
+
+    colorView = findViewById(R.id.colorView);
     checkMarkView = findViewById(R.id.checkMarkView);
-  }
 
-  private void bindToViewModel() {
-    if (subscription != null) {
-      subscription.unsubscribe();
-    }
+    theme.observe()
+        .doOnNext(new Action1<ThemeViewModel>() {
+          @Override
+          public void call(ThemeViewModel theme) {
+            if (subscription != null) {
+              subscription.unsubscribe();
+            }
+          }
+        })
+        .subscribe(new Action1<ThemeViewModel>() {
+          @Override
+          public void call(final ThemeViewModel theme) {
+            colorView.setBackgroundColor(theme.getBackgroundColor());
 
-    setBackgroundColor(viewModel.getBackgroundColor());
+            subscription = theme.isSelected().observe().subscribe(new Action1<Boolean>() {
+              @Override
+              public void call(Boolean isSelected) {
+                checkMarkView.setVisibility(isSelected ? VISIBLE : GONE);
+              }
+            });
 
-    subscription = viewModel.isSelected().observe().subscribe(new Action1<Boolean>() {
-      @Override
-      public void call(Boolean isSelected) {
-        checkMarkView.setVisibility(isSelected ? VISIBLE : GONE);
-      }
-    });
-
-    setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        viewModel.isSelected().setValue(true);
-      }
-    });
+            setOnClickListener(new OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                theme.isSelected().setValue(true);
+              }
+            });
+          }
+        });
   }
 }
