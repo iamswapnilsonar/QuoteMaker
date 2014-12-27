@@ -3,8 +3,11 @@ package com.thuytrinh.quotemaker;
 import android.content.Context;
 import android.view.LayoutInflater;
 
+import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.ColorPickerViewModel;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -31,17 +34,18 @@ public class AppModule {
   }
 
   @Provides
+  @Singleton
+  Bus provideBus() {
+    return new MainThreadBus();
+  }
+
+  @Provides
   CanvasViewModel provideCanvasViewModel(Context context) {
     return new CanvasViewModel(context);
   }
 
   @Provides
-  ColorPickerViewModel provideColorPickerViewModel(Context context) {
-    return new ColorPickerViewModel(context);
-  }
-
-  @Provides
-  ThemesAdapter provideThemesAdapter(LayoutInflater inflater) {
-    return new ThemesAdapter(inflater);
+  ColorPickerViewModel provideColorPickerViewModel(Context context, Bus eventBus) {
+    return new ColorPickerViewModel(context, eventBus);
   }
 }

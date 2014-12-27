@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+  android:id="@+id/overlayView"
+  xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="?android:colorBackground">
+  android:background="@android:color/transparent">
 
-  <com.thuytrinh.quotemaker.view.SquareView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="bottom">
+  <FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal"
+    android:background="?android:colorBackground">
 
-    <view
+    <com.thuytrinh.quotemaker.view.ThemesView
       android:id="@+id/colorsView"
-      class="android.support.v7.widget.RecyclerView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_gravity="center" />
-  </com.thuytrinh.quotemaker.view.SquareView>
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:columnCount="6"
+      android:padding="4dp" />
+  </FrameLayout>
 </FrameLayout>
