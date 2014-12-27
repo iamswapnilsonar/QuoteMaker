@@ -3,6 +3,7 @@ package com.thuytrinh.quotemaker.viewmodel;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.R;
 
 import java.util.ArrayList;
@@ -18,12 +19,22 @@ public class ColorPickerViewModel {
   private final Context context;
   private final List<ThemeViewModel> themes = new ArrayList<>();
   private final ObservableProperty<ThemeViewModel> selectedTheme = new ObservableProperty<>();
+  private final Bus eventBus;
 
   @Inject
-  public ColorPickerViewModel(Context context) {
+  public ColorPickerViewModel(Context context, Bus eventBus) {
     this.context = context;
-    initThemes();
+    this.eventBus = eventBus;
 
+    initThemes();
+    initRelationships();
+  }
+
+  public List<ThemeViewModel> getThemes() {
+    return themes;
+  }
+
+  private void initRelationships() {
     Observable.from(themes)
         .subscribe(new Action1<ThemeViewModel>() {
           @Override
@@ -42,10 +53,13 @@ public class ColorPickerViewModel {
             });
           }
         });
-  }
 
-  public List<ThemeViewModel> getThemes() {
-    return themes;
+    selectedTheme.observe().subscribe(new Action1<ThemeViewModel>() {
+      @Override
+      public void call(ThemeViewModel theme) {
+        eventBus.post(theme);
+      }
+    });
   }
 
   private void initThemes() {
