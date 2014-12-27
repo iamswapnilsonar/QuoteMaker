@@ -57,6 +57,14 @@ public class CanvasFragment extends BaseFragment {
             .commit();
       }
     });
+
+    View addTextButton = view.findViewById(R.id.addTextButton);
+    addTextButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        new ChangeTextFragment().show(getFragmentManager(), null);
+      }
+    });
   }
 
   @Subscribe
