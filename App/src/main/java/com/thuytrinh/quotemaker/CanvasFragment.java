@@ -5,11 +5,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
-import com.thuytrinh.quotemaker.viewmodel.ThemeViewModel;
 
 import javax.inject.Inject;
 
@@ -18,8 +16,6 @@ import rx.functions.Action1;
 public class CanvasFragment extends BaseFragment {
   @Inject CanvasViewModel viewModel;
   @Inject Bus eventBus;
-
-  private View backgroundView;
 
   public CanvasFragment() {
     super(R.layout.fragment_canvas);
@@ -34,20 +30,26 @@ public class CanvasFragment extends BaseFragment {
   @Override
   public void onStart() {
     super.onStart();
-    eventBus.register(this);
+    eventBus.register(viewModel);
   }
 
   @Override
   public void onStop() {
     super.onStop();
-    eventBus.unregister(this);
+    eventBus.unregister(viewModel);
   }
 
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    backgroundView = view.findViewById(R.id.backgroundView);
+    final View backgroundView = view.findViewById(R.id.backgroundView);
+    viewModel.backgroundColor.observe().subscribe(new Action1<Integer>() {
+      @Override
+      public void call(Integer color) {
+        backgroundView.setBackgroundColor(color);
+      }
+    });
 
     View chooseBackgroundButton = view.findViewById(R.id.chooseBackgroundButton);
     chooseBackgroundButton.setOnClickListener(new View.OnClickListener() {
@@ -82,10 +84,5 @@ public class CanvasFragment extends BaseFragment {
 
     CanvasView canvasView = (CanvasView) view.findViewById(R.id.canvasView);
     canvasView.viewModel.setValue(viewModel);
-  }
-
-  @Subscribe
-  public void onEvent(ThemeViewModel selectedTheme) {
-    backgroundView.setBackgroundColor(selectedTheme.getBackgroundColor());
   }
 }
