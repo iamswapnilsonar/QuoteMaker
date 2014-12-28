@@ -14,7 +14,8 @@ import dagger.Provides;
 
 @Module(injects = {
     CanvasFragment.class,
-    ColorPickerFragment.class
+    ColorPickerFragment.class,
+    TextsAdapter.class
 }, library = true)
 public class AppModule {
   private final Context context;
