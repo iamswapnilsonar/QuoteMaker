@@ -81,7 +81,7 @@ public class CanvasFragment extends BaseFragment {
     });
 
     CanvasView canvasView = (CanvasView) view.findViewById(R.id.canvasView);
-    canvasView.bind(viewModel);
+    canvasView.viewModel.setValue(viewModel);
   }
 
   @Subscribe
