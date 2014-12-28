@@ -2,12 +2,11 @@ package com.thuytrinh.quotemaker;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
 import com.thuytrinh.quotemaker.viewmodel.ThemeViewModel;
@@ -19,7 +18,6 @@ import rx.functions.Action1;
 public class CanvasFragment extends BaseFragment {
   @Inject CanvasViewModel viewModel;
   @Inject Bus eventBus;
-  @Inject TextsAdapter textsAdapter;
 
   private View backgroundView;
 
@@ -72,20 +70,18 @@ public class CanvasFragment extends BaseFragment {
         fragment.onDone().subscribe(new Action1<CharSequence>() {
           @Override
           public void call(CharSequence text) {
-            TextViewModel model = new TextViewModel();
-            model.text.setValue(text);
+            TextViewModel newItem = new TextViewModel();
+            newItem.text.setValue(text);
 
-            textsAdapter.texts.getValue().add(model);
-            textsAdapter.notifyDataSetChanged();
+            viewModel.items.add(newItem);
           }
         });
         fragment.show(getFragmentManager(), "addText");
       }
     });
 
-    RecyclerView canvasView = (RecyclerView) view.findViewById(R.id.canvasView);
-    canvasView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    canvasView.setAdapter(textsAdapter);
+    CanvasView canvasView = (CanvasView) view.findViewById(R.id.canvasView);
+    canvasView.bind(viewModel);
   }
 
   @Subscribe
