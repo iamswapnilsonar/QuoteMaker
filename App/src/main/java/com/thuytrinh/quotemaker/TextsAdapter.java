@@ -1,6 +1,7 @@
 package com.thuytrinh.quotemaker;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,7 +23,9 @@ public class TextsAdapter extends RecyclerView.Adapter<TextsAdapter.ViewHolder> 
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    return new ViewHolder(new TextView(parent.getContext()));
+    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+    TextView textView = (TextView) inflater.inflate(R.layout.view_text, parent, false);
+    return new ViewHolder(textView);
   }
 
   @Override
