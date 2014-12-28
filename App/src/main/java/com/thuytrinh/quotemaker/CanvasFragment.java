@@ -62,7 +62,7 @@ public class CanvasFragment extends BaseFragment {
     addTextButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        new ChangeTextFragment().show(getFragmentManager(), null);
+        new ChangeTextFragment().show(getFragmentManager(), "addText");
       }
     });
   }
