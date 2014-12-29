@@ -25,6 +25,9 @@ public class ChangeTextFragment extends BaseDialogFragment {
     super.onViewCreated(view, savedInstanceState);
 
     final EditText editTextView = (EditText) view.findViewById(R.id.editTextView);
+    if (BuildConfig.DEBUG) {
+      editTextView.setText("AWESOME APP!");
+    }
 
     Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
     toolbar.inflateMenu(R.menu.change_text);
