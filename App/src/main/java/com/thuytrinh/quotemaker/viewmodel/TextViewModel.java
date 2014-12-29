@@ -12,7 +12,8 @@ public class TextViewModel {
 
   public TextViewModel() {
     // fontPath.setValue("fonts/BEBAS___.ttf");
-    fontPath.setValue("fonts/League Gothic.otf");
+    // fontPath.setValue("fonts/League Gothic.otf");
+    fontPath.setValue("fonts/Anton.ttf");
   }
 
   public Observable<Typeface> getTypeface(final Context appContext) {
