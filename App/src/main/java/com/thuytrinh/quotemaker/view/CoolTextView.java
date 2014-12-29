@@ -46,14 +46,15 @@ public class CoolTextView extends TextView {
   protected void onAttachedToWindow() {
     super.onAttachedToWindow();
 
-    viewModelSubscription = viewModel.observe()
-        .subscribe(new Action1<TextViewModel>() {
-          @Override
-          public void call(TextViewModel value) {
-            bind(value);
-          }
-        });
+    viewModelSubscription = viewModel.observe().subscribe(new Action1<TextViewModel>() {
+      @Override
+      public void call(TextViewModel value) {
+        bind(value);
+      }
+    });
   }
+
+}
 
   @Override
   protected void onDetachedFromWindow() {
