@@ -54,8 +54,6 @@ public class CoolTextView extends TextView {
     });
   }
 
-}
-
   @Override
   protected void onDetachedFromWindow() {
     super.onDetachedFromWindow();
