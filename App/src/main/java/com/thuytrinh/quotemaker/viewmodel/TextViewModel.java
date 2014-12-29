@@ -9,6 +9,8 @@ import rx.functions.Func1;
 public class TextViewModel {
   public final ObservableProperty<CharSequence> text = new ObservableProperty<>();
   public final ObservableProperty<String> fontPath = new ObservableProperty<>();
+  public final ObservableProperty<Float> x = new ObservableProperty<>(0f);
+  public final ObservableProperty<Float> y = new ObservableProperty<>(0f);
 
   public TextViewModel() {
     // fontPath.setValue("fonts/BEBAS___.ttf");
