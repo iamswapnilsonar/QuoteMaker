@@ -2,6 +2,7 @@ package com.thuytrinh.quotemaker.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -72,6 +73,12 @@ public class CanvasView extends FrameLayout {
           @Override
           public void call(CharSequence text) {
             newItemView.setText(text);
+          }
+        });
+        newItem.getTypeface(getContext()).subscribe(new Action1<Typeface>() {
+          @Override
+          public void call(Typeface typeface) {
+            newItemView.setTypeface(typeface);
           }
         });
       }
