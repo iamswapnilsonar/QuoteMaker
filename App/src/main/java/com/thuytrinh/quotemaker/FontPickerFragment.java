@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 public class FontPickerFragment extends BaseFragment implements ForViewModel<FontPicker> {
   @Inject FontPicker viewModel;
+  @Inject FontsAdapter fontsAdapter;
 
   public FontPickerFragment() {
     super(R.layout.fragment_font_picker);
@@ -22,6 +23,7 @@ public class FontPickerFragment extends BaseFragment implements ForViewModel<Fon
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ObjectCreator.getGraph().inject(this);
+    fontsAdapter.setFonts(viewModel.fonts);
   }
 
   @Override
@@ -39,6 +41,7 @@ public class FontPickerFragment extends BaseFragment implements ForViewModel<Fon
 
     RecyclerView fontsView = ((RecyclerView) view.findViewById(R.id.fontsView));
     fontsView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    fontsView.setAdapter(fontsAdapter);
   }
 
   @Override

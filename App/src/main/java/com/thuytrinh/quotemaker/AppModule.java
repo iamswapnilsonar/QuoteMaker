@@ -1,7 +1,6 @@
 package com.thuytrinh.quotemaker;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 
 import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.view.CoolTextView;
@@ -19,6 +18,7 @@ import dagger.Provides;
     CanvasFragment.class,
     ColorPickerFragment.class,
     FontPickerFragment.class,
+    FontsAdapter.class,
     ColorPickerViewModel.class,
     CanvasViewModel.class,
     FontPicker.class
@@ -33,11 +33,6 @@ public class AppModule {
   @Provides
   Context provideContext() {
     return appContext;
-  }
-
-  @Provides
-  LayoutInflater provideLayoutInflater(Context context) {
-    return LayoutInflater.from(context);
   }
 
   @Provides
