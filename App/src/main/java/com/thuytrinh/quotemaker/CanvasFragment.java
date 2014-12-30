@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
+import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
 
 import javax.inject.Inject;
@@ -16,6 +18,8 @@ import rx.functions.Action1;
 public class CanvasFragment extends BaseFragment {
   @Inject CanvasViewModel viewModel;
   @Inject Bus eventBus;
+
+  private TextViewModel selectedTextViewModel;
 
   public CanvasFragment() {
     super(R.layout.fragment_canvas);
@@ -31,12 +35,14 @@ public class CanvasFragment extends BaseFragment {
   public void onStart() {
     super.onStart();
     eventBus.register(viewModel);
+    eventBus.register(this);
   }
 
   @Override
   public void onStop() {
     super.onStop();
     eventBus.unregister(viewModel);
+    eventBus.unregister(this);
   }
 
   @Override
@@ -84,5 +90,20 @@ public class CanvasFragment extends BaseFragment {
 
     CanvasView canvasView = (CanvasView) view.findViewById(R.id.canvasView);
     canvasView.viewModel.setValue(viewModel);
+  }
+
+  @Subscribe
+  public void onEvent(TextViewModel textViewModel) {
+    selectedTextViewModel = textViewModel;
+    getFragmentManager()
+        .beginTransaction()
+        .add(android.R.id.content, new FontPickerFragment())
+        .addToBackStack("fontPicker")
+        .commit();
+  }
+
+  @Subscribe
+  public void onEvent(FontViewModel fontViewModel) {
+    selectedTextViewModel.fontPath.setValue(fontViewModel.fontPath);
   }
 }
