@@ -69,6 +69,10 @@ public class CoolTextView extends TextView {
   }
 
   private void init() {
+    if (isInEditMode()) {
+      return;
+    }
+
     ObjectCreator.getGraph().inject(this);
 
     gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {

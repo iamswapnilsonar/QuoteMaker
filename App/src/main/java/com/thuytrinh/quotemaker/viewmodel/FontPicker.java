@@ -46,7 +46,9 @@ public class FontPicker {
         "fonts/Raleway-ExtraLight.ttf",
         "fonts/MrDeHaviland-Regular.ttf",
         "fonts/FingerPaint-Regular.ttf",
-        "fonts/JuliusSansOne-Regular.ttf"
+        "fonts/JuliusSansOne-Regular.ttf",
+        "fonts/MrDafoe-Regular.ttf",
+        "fonts/SpecialElite.ttf"
     );
 
     for (int i = 0, size = fontPaths.size(); i < size; i++) {
