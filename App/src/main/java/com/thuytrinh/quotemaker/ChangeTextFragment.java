@@ -26,7 +26,7 @@ public class ChangeTextFragment extends BaseDialogFragment {
 
     final EditText editTextView = (EditText) view.findViewById(R.id.editTextView);
     if (BuildConfig.DEBUG) {
-      editTextView.setText("AWESOME APP!");
+      editTextView.setText("Move Fast\nand\nBreak Things");
     }
 
     Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
