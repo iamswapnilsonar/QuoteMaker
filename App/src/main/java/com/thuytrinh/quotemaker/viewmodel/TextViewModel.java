@@ -13,9 +13,12 @@ public class TextViewModel {
   public final ObservableProperty<Float> y = new ObservableProperty<>(0f);
 
   public TextViewModel() {
-    // fontPath.setValue("fonts/BEBAS___.ttf");
     // fontPath.setValue("fonts/League Gothic.otf");
-    fontPath.setValue("fonts/Anton.ttf");
+    // fontPath.setValue("fonts/BEBAS___.ttf");
+    // fontPath.setValue("fonts/Anton.ttf");
+    // fontPath.setValue("fonts/pacifico.ttf");
+    // fontPath.setValue("fonts/Raleway-ExtraLight.ttf");
+    fontPath.setValue("fonts/MrDeHaviland-Regular.ttf");
   }
 
   public Observable<Typeface> getTypeface(final Context appContext) {
