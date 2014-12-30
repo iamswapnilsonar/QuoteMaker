@@ -11,13 +11,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.functions.Action1;
+
 public class FontPicker {
   public final List<FontViewModel> fonts = new ArrayList<>();
-  public final Bus eventBus;
+  private final Bus eventBus;
   private final Context appContext;
 
   @Inject
-  public FontPicker(Context appContext, Bus eventBus) {
+  public FontPicker(Context appContext, final Bus eventBus) {
     this.appContext = appContext;
     this.eventBus = eventBus;
 
@@ -53,6 +55,17 @@ public class FontPicker {
           fontPath,
           typeface
       ));
+    }
+
+    for (final FontViewModel font : fonts) {
+      font.isSelected.observe().subscribe(new Action1<Boolean>() {
+        @Override
+        public void call(Boolean value) {
+          if (value) {
+            eventBus.post(font);
+          }
+        }
+      });
     }
   }
 }

@@ -28,9 +28,17 @@ public class FontsAdapter extends RecyclerView.Adapter<FontsAdapter.ViewHolder> 
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
+    final FontViewModel font = fonts.get(position);
+
     TextView itemView = (TextView) holder.itemView;
-    itemView.setTypeface(fonts.get(position).typeface);
-    itemView.setText(fonts.get(position).preview);
+    itemView.setTypeface(font.typeface);
+    itemView.setText(font.preview);
+    itemView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        font.isSelected.setValue(true);
+      }
+    });
   }
 
   @Override
