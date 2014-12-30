@@ -44,7 +44,9 @@ public class FontPicker {
         "fonts/Anton.ttf",
         "fonts/pacifico.ttf",
         "fonts/Raleway-ExtraLight.ttf",
-        "fonts/MrDeHaviland-Regular.ttf"
+        "fonts/MrDeHaviland-Regular.ttf",
+        "fonts/FingerPaint-Regular.ttf",
+        "fonts/JuliusSansOne-Regular.ttf"
     );
 
     for (int i = 0, size = fontPaths.size(); i < size; i++) {
