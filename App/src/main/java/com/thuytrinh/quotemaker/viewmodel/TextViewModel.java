@@ -15,10 +15,10 @@ public class TextViewModel {
   public TextViewModel() {
     // fontPath.setValue("fonts/League Gothic.otf");
     // fontPath.setValue("fonts/BEBAS___.ttf");
-    // fontPath.setValue("fonts/Anton.ttf");
+    fontPath.setValue("fonts/Anton.ttf");
     // fontPath.setValue("fonts/pacifico.ttf");
     // fontPath.setValue("fonts/Raleway-ExtraLight.ttf");
-    fontPath.setValue("fonts/MrDeHaviland-Regular.ttf");
+    // fontPath.setValue("fonts/MrDeHaviland-Regular.ttf");
   }
 
   public Observable<Typeface> getTypeface(final Context appContext) {

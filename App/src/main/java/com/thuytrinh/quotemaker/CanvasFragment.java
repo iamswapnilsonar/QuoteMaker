@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
@@ -31,12 +32,14 @@ public class CanvasFragment extends BaseFragment {
   public void onStart() {
     super.onStart();
     eventBus.register(viewModel);
+    eventBus.register(this);
   }
 
   @Override
   public void onStop() {
     super.onStop();
     eventBus.unregister(viewModel);
+    eventBus.unregister(this);
   }
 
   @Override
@@ -84,5 +87,14 @@ public class CanvasFragment extends BaseFragment {
 
     CanvasView canvasView = (CanvasView) view.findViewById(R.id.canvasView);
     canvasView.viewModel.setValue(viewModel);
+  }
+
+  @Subscribe
+  public void onEvent(TextViewModel textViewModel) {
+    getFragmentManager()
+        .beginTransaction()
+        .add(android.R.id.content, new FontPickerFragment())
+        .addToBackStack("fontPicker")
+        .commit();
   }
 }

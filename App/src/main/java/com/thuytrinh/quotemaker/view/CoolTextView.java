@@ -10,14 +10,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.squareup.otto.Bus;
+import com.thuytrinh.quotemaker.ObjectCreator;
 import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
+
+import javax.inject.Inject;
 
 import rx.Subscription;
 import rx.functions.Action1;
 
 public class CoolTextView extends TextView {
   public final ObservableProperty<TextViewModel> viewModel = new ObservableProperty<>();
+  @Inject Bus eventBus;
   private Subscription viewModelSubscription;
   private GestureDetector gestureDetector;
 
@@ -64,6 +69,8 @@ public class CoolTextView extends TextView {
   }
 
   private void init() {
+    ObjectCreator.getGraph().inject(this);
+
     gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
       private float downX;
       private float downY;
@@ -84,6 +91,12 @@ public class CoolTextView extends TextView {
         float offsetY = moveEvent.getRawY() - downEvent.getRawY();
         viewModel.getValue().x.setValue(downX + offsetX);
         viewModel.getValue().y.setValue(downY + offsetY);
+        return true;
+      }
+
+      @Override
+      public boolean onDoubleTap(MotionEvent e) {
+        eventBus.post(viewModel.getValue());
         return true;
       }
     });

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 
 import com.squareup.otto.Bus;
+import com.thuytrinh.quotemaker.view.CoolTextView;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.ColorPickerViewModel;
+import com.thuytrinh.quotemaker.viewmodel.FontPicker;
 
 import javax.inject.Singleton;
 
@@ -13,19 +15,24 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module(injects = {
+    CoolTextView.class,
     CanvasFragment.class,
-    ColorPickerFragment.class
+    ColorPickerFragment.class,
+    FontPickerFragment.class,
+    ColorPickerViewModel.class,
+    CanvasViewModel.class,
+    FontPicker.class
 }, library = true)
 public class AppModule {
-  private final Context context;
+  private final Context appContext;
 
-  public AppModule(Context context) {
-    this.context = context;
+  public AppModule(Context appContext) {
+    this.appContext = appContext;
   }
 
   @Provides
   Context provideContext() {
-    return context;
+    return appContext;
   }
 
   @Provides
@@ -37,15 +44,5 @@ public class AppModule {
   @Singleton
   Bus provideBus() {
     return new MainThreadBus();
-  }
-
-  @Provides
-  CanvasViewModel provideCanvasViewModel(Context context) {
-    return new CanvasViewModel(context);
-  }
-
-  @Provides
-  ColorPickerViewModel provideColorPickerViewModel(Context context, Bus eventBus) {
-    return new ColorPickerViewModel(context, eventBus);
   }
 }
