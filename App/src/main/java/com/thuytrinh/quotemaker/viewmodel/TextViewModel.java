@@ -13,6 +13,7 @@ public class TextViewModel {
   public final ObservableProperty<Float> x = new ObservableProperty<>(0f);
   public final ObservableProperty<Float> y = new ObservableProperty<>(0f);
   public final ObservableProperty<Integer> gravity = new ObservableProperty<>(Gravity.RIGHT);
+  public final ObservableProperty<Float> size = new ObservableProperty<>(45f);
 
   public TextViewModel() {
     // fontPath.setValue("fonts/League Gothic.otf");

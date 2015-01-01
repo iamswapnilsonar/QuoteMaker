@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 
@@ -67,6 +68,30 @@ public class FontPickerFragment extends BaseFragment implements ForViewModel<Fon
       @Override
       public void onClick(View v) {
         eventBus.post(Gravity.RIGHT);
+      }
+    });
+
+    View decreaseSizeButton = view.findViewById(R.id.decreaseSizeButton);
+    decreaseSizeButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        eventBus.post(-1f);
+      }
+    });
+
+    View increaseSizeButton = view.findViewById(R.id.increaseSizeButton);
+    increaseSizeButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        eventBus.post(1f);
+      }
+    });
+
+    View centerButton = view.findViewById(R.id.centerButton);
+    centerButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        eventBus.post(new Pair<>(0f, 0f));
       }
     });
   }
