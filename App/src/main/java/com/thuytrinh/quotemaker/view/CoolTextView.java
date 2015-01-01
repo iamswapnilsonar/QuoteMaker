@@ -144,5 +144,11 @@ public class CoolTextView extends TextView {
         setGravity(gravity);
       }
     });
+    viewModel.size.observe().subscribe(new Action1<Float>() {
+      @Override
+      public void call(Float size) {
+        setTextSize(size);
+      }
+    });
   }
 }

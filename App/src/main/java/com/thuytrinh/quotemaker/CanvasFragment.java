@@ -114,4 +114,9 @@ public class CanvasFragment extends BaseFragment {
   public void onEvent(Integer textGravity) {
     selectedTextViewModel.gravity.setValue(textGravity);
   }
+
+  @Subscribe
+  public void onEvent(Float sizeIncrement) {
+    selectedTextViewModel.size.setValue(selectedTextViewModel.size.getValue() + sizeIncrement);
+  }
 }

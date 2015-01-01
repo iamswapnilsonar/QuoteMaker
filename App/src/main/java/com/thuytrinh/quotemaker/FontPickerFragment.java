@@ -69,6 +69,22 @@ public class FontPickerFragment extends BaseFragment implements ForViewModel<Fon
         eventBus.post(Gravity.RIGHT);
       }
     });
+
+    View decreaseSizeButton = view.findViewById(R.id.decreaseSizeButton);
+    decreaseSizeButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        eventBus.post(-1f);
+      }
+    });
+
+    View increaseSizeButton = view.findViewById(R.id.increaseSizeButton);
+    increaseSizeButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        eventBus.post(1f);
+      }
+    });
   }
 
   @Override
