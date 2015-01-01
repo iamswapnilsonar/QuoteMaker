@@ -106,4 +106,12 @@ public class CanvasFragment extends BaseFragment {
   public void onEvent(FontViewModel fontViewModel) {
     selectedTextViewModel.fontPath.setValue(fontViewModel.fontPath);
   }
+
+  /**
+   * Don't change 'Integer' into 'int'.
+   */
+  @Subscribe
+  public void onEvent(Integer textGravity) {
+    selectedTextViewModel.gravity.setValue(textGravity);
+  }
 }

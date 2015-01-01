@@ -138,5 +138,11 @@ public class CoolTextView extends TextView {
         setTranslationY(y);
       }
     });
+    viewModel.gravity.observe().subscribe(new Action1<Integer>() {
+      @Override
+      public void call(Integer gravity) {
+        setGravity(gravity);
+      }
+    });
   }
 }

@@ -6,10 +6,43 @@
   android:layout_height="match_parent"
   android:background="@android:color/transparent">
 
-  <view
-    android:id="@+id/fontsView"
-    class="android.support.v7.widget.RecyclerView"
+  <LinearLayout
     android:layout_width="140dp"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground" />
+    android:background="?android:colorBackground"
+    android:orientation="vertical">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <Button
+        android:id="@+id/alignLeftButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="L" />
+
+      <Button
+        android:id="@+id/alignCenterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="C" />
+
+      <Button
+        android:id="@+id/alignRightButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="R" />
+    </LinearLayout>
+
+    <view
+      android:id="@+id/fontsView"
+      class="android.support.v7.widget.RecyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+  </LinearLayout>
 </FrameLayout>

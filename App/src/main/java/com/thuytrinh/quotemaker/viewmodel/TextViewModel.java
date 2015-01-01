@@ -2,6 +2,7 @@ package com.thuytrinh.quotemaker.viewmodel;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.view.Gravity;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -11,6 +12,7 @@ public class TextViewModel {
   public final ObservableProperty<String> fontPath = new ObservableProperty<>();
   public final ObservableProperty<Float> x = new ObservableProperty<>(0f);
   public final ObservableProperty<Float> y = new ObservableProperty<>(0f);
+  public final ObservableProperty<Integer> gravity = new ObservableProperty<>(Gravity.RIGHT);
 
   public TextViewModel() {
     // fontPath.setValue("fonts/League Gothic.otf");
