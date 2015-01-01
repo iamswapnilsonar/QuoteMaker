@@ -2,6 +2,7 @@ package com.thuytrinh.quotemaker;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Pair;
 import android.view.View;
 
 import com.squareup.otto.Bus;
@@ -118,5 +119,11 @@ public class CanvasFragment extends BaseFragment {
   @Subscribe
   public void onEvent(Float sizeIncrement) {
     selectedTextViewModel.size.setValue(selectedTextViewModel.size.getValue() + sizeIncrement);
+  }
+
+  @Subscribe
+  public void onEvent(Pair<Float, Float> alignment) {
+    selectedTextViewModel.x.setValue(alignment.first);
+    selectedTextViewModel.y.setValue(alignment.second);
   }
 }

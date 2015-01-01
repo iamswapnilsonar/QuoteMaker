@@ -12,6 +12,12 @@
     android:background="?android:colorBackground"
     android:orientation="vertical">
 
+    <Button
+      android:id="@+id/centerButton"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Center" />
+
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
