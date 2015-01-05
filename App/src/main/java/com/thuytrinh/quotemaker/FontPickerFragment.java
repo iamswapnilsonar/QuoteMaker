@@ -14,6 +14,8 @@ import com.thuytrinh.quotemaker.viewmodel.ForViewModel;
 
 import javax.inject.Inject;
 
+import rx.functions.Action1;
+
 public class FontPickerFragment extends BaseFragment implements ForViewModel<FontPicker> {
   @Inject FontPicker viewModel;
   @Inject FontsAdapter fontsAdapter;
@@ -92,6 +94,21 @@ public class FontPickerFragment extends BaseFragment implements ForViewModel<Fon
       @Override
       public void onClick(View v) {
         eventBus.post(new Pair<>(0f, 0f));
+      }
+    });
+
+    View editTextButton = view.findViewById(R.id.editTextButton);
+    editTextButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        ChangeTextFragment fragment = new ChangeTextFragment();
+        fragment.onDone().subscribe(new Action1<CharSequence>() {
+          @Override
+          public void call(CharSequence text) {
+            eventBus.post(String.valueOf(text));
+          }
+        });
+        fragment.show(getFragmentManager(), "editText");
       }
     });
   }

@@ -160,4 +160,9 @@ public class CanvasFragment extends BaseFragment {
     selectedTextViewModel.x.setValue(alignment.first);
     selectedTextViewModel.y.setValue(alignment.second);
   }
+
+  @Subscribe
+  public void onEvent(String text) {
+    selectedTextViewModel.text.setValue(text);
+  }
 }
