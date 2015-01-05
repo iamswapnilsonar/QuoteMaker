@@ -1,5 +1,8 @@
 package com.thuytrinh.quotemaker;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Pair;
@@ -11,6 +14,10 @@ import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -91,6 +98,33 @@ public class CanvasFragment extends BaseFragment {
 
     CanvasView canvasView = (CanvasView) view.findViewById(R.id.canvasView);
     canvasView.viewModel.setValue(viewModel);
+
+    final View quoteView = view.findViewById(R.id.quoteView);
+    View saveButton = view.findViewById(R.id.saveButton);
+
+    // TODO: Test it on a real device.
+    saveButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        quoteView.buildDrawingCache();
+        Bitmap snapshot = quoteView.getDrawingCache();
+
+        File file = new File(getActivity().getFilesDir(), "snapshot_" + System.currentTimeMillis());
+        try {
+          FileOutputStream stream = new FileOutputStream(file);
+          snapshot.compress(Bitmap.CompressFormat.PNG, 100, stream);
+          stream.close();
+
+          Intent shareIntent = new Intent();
+          shareIntent.setAction(Intent.ACTION_SEND);
+          shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+          shareIntent.setType("image/*");
+          startActivity(shareIntent);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    });
   }
 
   @Subscribe

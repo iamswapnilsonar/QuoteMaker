@@ -4,15 +4,21 @@
   android:layout_height="match_parent"
   tools:context="com.thuytrinh.quotemaker.CanvasFragment">
 
-  <View
-    android:id="@+id/backgroundView"
+  <FrameLayout
+    android:id="@+id/quoteView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent">
 
-  <com.thuytrinh.quotemaker.view.CanvasView
-    android:id="@+id/canvasView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    <View
+      android:id="@+id/backgroundView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+    <com.thuytrinh.quotemaker.view.CanvasView
+      android:id="@+id/canvasView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+  </FrameLayout>
 
   <Button
     android:id="@+id/addTextButton"
@@ -28,4 +34,12 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:text="Choose background" />
+
+  <Button
+    android:id="@+id/saveButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentTop="true"
+    android:text="Save" />
 </RelativeLayout>
