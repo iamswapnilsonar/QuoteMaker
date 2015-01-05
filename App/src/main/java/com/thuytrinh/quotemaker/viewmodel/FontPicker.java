@@ -48,7 +48,8 @@ public class FontPicker {
         "fonts/FingerPaint-Regular.ttf",
         "fonts/JuliusSansOne-Regular.ttf",
         "fonts/MrDafoe-Regular.ttf",
-        "fonts/SpecialElite.ttf"
+        "fonts/SpecialElite.ttf",
+        "fonts/CabinSketch-Regular.ttf"
     );
 
     for (int i = 0, size = fontPaths.size(); i < size; i++) {
