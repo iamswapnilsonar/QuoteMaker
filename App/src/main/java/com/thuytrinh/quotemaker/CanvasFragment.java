@@ -11,6 +11,7 @@ import android.view.View;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.view.CanvasView;
+import com.thuytrinh.quotemaker.view.CoolTextView;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
@@ -28,9 +29,28 @@ public class CanvasFragment extends BaseFragment {
   @Inject Bus eventBus;
 
   private TextViewModel selectedTextViewModel;
+  private View deleteView;
 
   public CanvasFragment() {
     super(R.layout.fragment_canvas);
+  }
+
+  /**
+   * Determines if given points are inside view
+   *
+   * @param x    x coordinate of point
+   * @param y    y coordinate of point
+   * @param view view object to compare
+   * @return true if the points are within view bounds, false otherwise
+   */
+  public static boolean isPointInsideView(float x, float y, View view) {
+    int location[] = new int[2];
+    view.getLocationOnScreen(location);
+    int viewX = location[0];
+    int viewY = location[1];
+
+    return (x > viewX && x < (viewX + view.getWidth())) &&
+        (y > viewY && y < (viewY + view.getHeight()));
   }
 
   @Override
@@ -125,6 +145,8 @@ public class CanvasFragment extends BaseFragment {
         }
       }
     });
+
+    deleteView = view.findViewById(R.id.deleteView);
   }
 
   @Subscribe
@@ -164,5 +186,18 @@ public class CanvasFragment extends BaseFragment {
   @Subscribe
   public void onEvent(String text) {
     selectedTextViewModel.text.setValue(text);
+  }
+
+  @Subscribe
+  public void onEvent(CoolTextView.ScrollEvent event) {
+    if (isPointInsideView(
+        (int) event.moveEvent.getRawX(),
+        (int) event.moveEvent.getRawY(),
+        deleteView
+    )) {
+      event.view.setAlpha(0.5f);
+    } else {
+      event.view.setAlpha(1f);
+    }
   }
 }

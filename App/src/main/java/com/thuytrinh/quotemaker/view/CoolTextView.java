@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -23,6 +24,7 @@ import rx.functions.Action1;
 public class CoolTextView extends TextView {
   public final ObservableProperty<TextViewModel> viewModel = new ObservableProperty<>();
   @Inject Bus eventBus;
+
   private Subscription viewModelSubscription;
   private GestureDetector gestureDetector;
 
@@ -95,6 +97,9 @@ public class CoolTextView extends TextView {
         float offsetY = moveEvent.getRawY() - downEvent.getRawY();
         viewModel.getValue().x.setValue(downX + offsetX);
         viewModel.getValue().y.setValue(downY + offsetY);
+
+        // TODO: Fix this EventBus pattern.
+        eventBus.post(new ScrollEvent(CoolTextView.this, moveEvent));
         return true;
       }
 
@@ -150,5 +155,15 @@ public class CoolTextView extends TextView {
         setTextSize(size);
       }
     });
+  }
+
+  public static class ScrollEvent {
+    public final CoolTextView view;
+    public final MotionEvent moveEvent;
+
+    public ScrollEvent(@NonNull CoolTextView view, @NonNull MotionEvent moveEvent) {
+      this.view = view;
+      this.moveEvent = moveEvent;
+    }
   }
 }
