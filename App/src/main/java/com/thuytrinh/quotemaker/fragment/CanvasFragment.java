@@ -191,10 +191,10 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(TextItemView.ScrollEvent event) {
+  public void onEvent(TextItemView.DragEvent event) {
     if (isPointInsideView(
-        (int) event.moveEvent.getRawX(),
-        (int) event.moveEvent.getRawY(),
+        (int) event.dragEvent.getRawX(),
+        (int) event.dragEvent.getRawY(),
         deleteView
     )) {
       event.view.setAlpha(0.5f);

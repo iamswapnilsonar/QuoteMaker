@@ -107,7 +107,7 @@ public class TextItemView extends TextView {
         viewModel.getValue().y.setValue(downY + offsetY);
 
         // TODO: Fix this EventBus pattern.
-        eventBus.post(new ScrollEvent(TextItemView.this, moveEvent));
+        eventBus.post(new DragEvent(TextItemView.this, moveEvent));
         return true;
       }
 
@@ -172,13 +172,13 @@ public class TextItemView extends TextView {
     });
   }
 
-  public static class ScrollEvent {
+  public static class DragEvent {
     public final TextItemView view;
-    public final MotionEvent moveEvent;
+    public final MotionEvent dragEvent;
 
-    public ScrollEvent(@NonNull TextItemView view, @NonNull MotionEvent moveEvent) {
+    public DragEvent(@NonNull TextItemView view, @NonNull MotionEvent dragEvent) {
       this.view = view;
-      this.moveEvent = moveEvent;
+      this.dragEvent = dragEvent;
     }
   }
 
