@@ -18,7 +18,8 @@ public class TextItem {
       Fields.X,
       Fields.Y,
       Fields.GRAVITY,
-      Fields.SIZE
+      Fields.SIZE,
+      Fields.QUOTE_ID
   });
 
   public final ObservableProperty<CharSequence> text = new ObservableProperty<>();
@@ -52,5 +53,10 @@ public class TextItem {
     public static final DbField Y = new DbField("y", "REAL");
     public static final DbField GRAVITY = new DbField("gravity", "INTEGER");
     public static final DbField SIZE = new DbField("size", "REAL");
+    public static final DbField QUOTE_ID = new DbField(
+        "quote_id",
+        "INTEGER",
+        "REFERENCES " + Quote.TABLE.name + "(" + Quote.Fields.ID + ")"
+    );
   }
 }

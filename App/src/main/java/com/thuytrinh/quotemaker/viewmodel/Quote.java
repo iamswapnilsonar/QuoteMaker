@@ -14,13 +14,18 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.functions.Action1;
 
-public class QuoteEditor {
+public class Quote {
+  public static final DbTable TABLE = new DbTable("quotes", new DbField[] {
+      Fields.ID,
+      Fields.BG_COLOR
+  });
+
   public final ObservableList<TextItem> items = new ObservableList<>(new ArrayList<TextItem>());
   public final ObservableProperty<Integer> backgroundColor;
   private final Context appContext;
 
   @Inject
-  public QuoteEditor(Context appContext) {
+  public Quote(Context appContext) {
     this.appContext = appContext;
 
     // Default background color.
@@ -44,5 +49,10 @@ public class QuoteEditor {
   @Subscribe
   public void onEvent(Theme selectedTheme) {
     backgroundColor.setValue(selectedTheme.getBackgroundColor());
+  }
+
+  public static class Fields {
+    public static final DbField ID = new DbField("_id", "INTEGER", "PRIMARY KEY AUTOINCREMENT");
+    public static final DbField BG_COLOR = new DbField("bg_color", "INTEGER");
   }
 }

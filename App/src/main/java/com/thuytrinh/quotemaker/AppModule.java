@@ -9,7 +9,7 @@ import com.thuytrinh.quotemaker.fragment.ThemePickerFragment;
 import com.thuytrinh.quotemaker.view.TextItemView;
 import com.thuytrinh.quotemaker.viewmodel.DbHelper;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
-import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
+import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
 
 import javax.inject.Singleton;
@@ -24,7 +24,7 @@ import dagger.Provides;
     FontPickerFragment.class,
     FontsAdapter.class,
     ThemePicker.class,
-    QuoteEditor.class,
+    Quote.class,
     FontPicker.class
 }, library = true)
 public class AppModule {

@@ -15,7 +15,7 @@ import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.view.TextItemView;
 import com.thuytrinh.quotemaker.viewmodel.FontItem;
-import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
+import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
 import java.io.File;
@@ -27,7 +27,7 @@ import javax.inject.Inject;
 import rx.functions.Action1;
 
 public class CanvasFragment extends BaseFragment {
-  @Inject QuoteEditor viewModel;
+  @Inject Quote viewModel;
   @Inject Bus eventBus;
 
   private TextItem selectedItem;
