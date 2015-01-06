@@ -12,16 +12,17 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.functions.Action1;
 
-public class CanvasViewModel {
+public class QuoteEditor {
   public final ObservableList<TextViewModel> items = new ObservableList<>(new ArrayList<TextViewModel>());
   public final ObservableProperty<Integer> backgroundColor;
-  private final Context context;
+  private final Context appContext;
 
   @Inject
-  public CanvasViewModel(Context context) {
-    this.context = context;
+  public QuoteEditor(Context appContext) {
+    this.appContext = appContext;
 
-    backgroundColor = new ObservableProperty<>(context.getResources().getColor(R.color.teal));
+    // Default background color.
+    backgroundColor = new ObservableProperty<>(appContext.getResources().getColor(R.color.teal));
 
     Observable.from(items)
         .subscribe(new Action1<TextViewModel>() {

@@ -12,7 +12,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.view.CoolTextView;
-import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
+import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
 
@@ -25,7 +25,7 @@ import javax.inject.Inject;
 import rx.functions.Action1;
 
 public class CanvasFragment extends BaseFragment {
-  @Inject CanvasViewModel viewModel;
+  @Inject QuoteEditor viewModel;
   @Inject Bus eventBus;
 
   private TextViewModel selectedItem;

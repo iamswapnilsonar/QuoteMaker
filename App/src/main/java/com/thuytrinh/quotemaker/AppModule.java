@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.view.CoolTextView;
-import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.ColorPickerViewModel;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
+import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 
 import javax.inject.Singleton;
 
@@ -20,7 +20,7 @@ import dagger.Provides;
     FontPickerFragment.class,
     FontsAdapter.class,
     ColorPickerViewModel.class,
-    CanvasViewModel.class,
+    QuoteEditor.class,
     FontPicker.class
 }, library = true)
 public class AppModule {
