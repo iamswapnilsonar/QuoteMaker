@@ -91,11 +91,11 @@ public class CanvasFragment extends BaseFragment {
     chooseBackgroundButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ColorPickerFragment colorPickerFragment = new ColorPickerFragment();
+        ThemePickerFragment themePickerFragment = new ThemePickerFragment();
         getFragmentManager()
             .beginTransaction()
-            .add(android.R.id.content, colorPickerFragment)
-            .addToBackStack("colorPicker")
+            .add(android.R.id.content, themePickerFragment)
+            .addToBackStack("themePicker")
             .commit();
       }
     });

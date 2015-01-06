@@ -13,7 +13,7 @@
     android:background="?android:colorBackground">
 
     <com.thuytrinh.quotemaker.view.ThemesView
-      android:id="@+id/colorsView"
+      android:id="@+id/themesView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:columnCount="6"

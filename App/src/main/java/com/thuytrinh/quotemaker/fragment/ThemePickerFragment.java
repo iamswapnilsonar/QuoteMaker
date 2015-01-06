@@ -12,11 +12,11 @@ import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
 
 import javax.inject.Inject;
 
-public class ColorPickerFragment extends BaseFragment implements ForViewModel<ThemePicker> {
+public class ThemePickerFragment extends BaseFragment implements ForViewModel<ThemePicker> {
   @Inject ThemePicker viewModel;
 
-  public ColorPickerFragment() {
-    super(R.layout.fragment_color_picker);
+  public ThemePickerFragment() {
+    super(R.layout.fragment_theme_picker);
   }
 
   @Override
@@ -38,8 +38,8 @@ public class ColorPickerFragment extends BaseFragment implements ForViewModel<Th
       }
     });
 
-    ThemesView colorsView = (ThemesView) view.findViewById(R.id.colorsView);
-    colorsView.themes.setValue(viewModel.getThemes());
+    ThemesView themesView = (ThemesView) view.findViewById(R.id.themesView);
+    themesView.themes.setValue(viewModel.getThemes());
   }
 
   @Override

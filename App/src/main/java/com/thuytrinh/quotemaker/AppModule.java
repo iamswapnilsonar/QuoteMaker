@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.fragment.CanvasFragment;
-import com.thuytrinh.quotemaker.fragment.ColorPickerFragment;
+import com.thuytrinh.quotemaker.fragment.ThemePickerFragment;
 import com.thuytrinh.quotemaker.fragment.FontPickerFragment;
 import com.thuytrinh.quotemaker.view.TextItemView;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
@@ -19,7 +19,7 @@ import dagger.Provides;
 @Module(injects = {
     TextItemView.class,
     CanvasFragment.class,
-    ColorPickerFragment.class,
+    ThemePickerFragment.class,
     FontPickerFragment.class,
     FontsAdapter.class,
     ThemePicker.class,
