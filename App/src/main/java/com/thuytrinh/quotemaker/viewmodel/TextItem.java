@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.view.Gravity;
 
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableAction;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
+
 import rx.Observable;
 import rx.functions.Func1;
 

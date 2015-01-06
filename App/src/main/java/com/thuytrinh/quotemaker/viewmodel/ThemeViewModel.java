@@ -1,5 +1,7 @@
 package com.thuytrinh.quotemaker.viewmodel;
 
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
+
 public class ThemeViewModel {
   private final String name;
   private final int backgroundColor;

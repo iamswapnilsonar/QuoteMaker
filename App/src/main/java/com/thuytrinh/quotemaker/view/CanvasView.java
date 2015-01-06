@@ -7,11 +7,11 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
-import com.thuytrinh.quotemaker.ChangeInfo;
 import com.thuytrinh.quotemaker.R;
-import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
 import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
+import com.thuytrinh.quotemaker.viewmodel.rx.ChangeInfo;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import rx.Subscription;
 import rx.functions.Action1;

@@ -7,8 +7,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.thuytrinh.quotemaker.R;
-import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
 import com.thuytrinh.quotemaker.viewmodel.ThemeViewModel;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import rx.Subscription;
 import rx.functions.Action1;

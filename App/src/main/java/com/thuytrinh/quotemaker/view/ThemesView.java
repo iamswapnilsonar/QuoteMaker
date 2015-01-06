@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.widget.GridLayout;
 
 import com.thuytrinh.quotemaker.R;
-import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
 import com.thuytrinh.quotemaker.viewmodel.ThemeViewModel;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import java.util.List;
 

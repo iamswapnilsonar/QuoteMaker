@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.R;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.ObjectCreator;
-import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import javax.inject.Inject;
 

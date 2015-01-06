@@ -2,6 +2,8 @@ package com.thuytrinh.quotemaker.viewmodel;
 
 import android.graphics.Typeface;
 
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
+
 public class FontViewModel {
   public final ObservableProperty<Boolean> isSelected = new ObservableProperty<>(false);
   public final String preview;

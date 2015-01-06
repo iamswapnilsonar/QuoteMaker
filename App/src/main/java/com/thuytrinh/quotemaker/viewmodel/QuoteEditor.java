@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.R;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableList;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import java.util.ArrayList;
 
