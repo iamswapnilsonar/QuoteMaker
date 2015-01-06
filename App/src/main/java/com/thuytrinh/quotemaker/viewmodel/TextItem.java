@@ -11,6 +11,16 @@ import rx.Observable;
 import rx.functions.Func1;
 
 public class TextItem {
+  public static final DbTable TABLE = new DbTable("text_items", new DbField[] {
+      Fields.ID,
+      Fields.TEXT,
+      Fields.FONT_PATH,
+      Fields.X,
+      Fields.Y,
+      Fields.GRAVITY,
+      Fields.SIZE
+  });
+
   public final ObservableProperty<CharSequence> text = new ObservableProperty<>();
   public final ObservableProperty<String> fontPath = new ObservableProperty<>();
   public final ObservableProperty<Float> x = new ObservableProperty<>(0f);
@@ -32,5 +42,15 @@ public class TextItem {
             return Typeface.createFromAsset(appContext.getAssets(), value);
           }
         });
+  }
+
+  public static class Fields {
+    public static final DbField ID = new DbField("_id", "INTEGER", "PRIMARY KEY AUTOINCREMENT");
+    public static final DbField TEXT = new DbField("text", "TEXT");
+    public static final DbField FONT_PATH = new DbField("font_path", "TEXT");
+    public static final DbField X = new DbField("x", "REAL");
+    public static final DbField Y = new DbField("y", "REAL");
+    public static final DbField GRAVITY = new DbField("gravity", "INTEGER");
+    public static final DbField SIZE = new DbField("size", "REAL");
   }
 }

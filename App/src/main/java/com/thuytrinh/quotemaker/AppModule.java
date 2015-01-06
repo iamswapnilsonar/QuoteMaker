@@ -7,6 +7,7 @@ import com.thuytrinh.quotemaker.fragment.CanvasFragment;
 import com.thuytrinh.quotemaker.fragment.FontPickerFragment;
 import com.thuytrinh.quotemaker.fragment.ThemePickerFragment;
 import com.thuytrinh.quotemaker.view.TextItemView;
+import com.thuytrinh.quotemaker.viewmodel.DbHelper;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
 import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
@@ -42,5 +43,11 @@ public class AppModule {
   @Singleton
   Bus provideBus() {
     return new MainThreadBus();
+  }
+
+  @Provides
+  @Singleton
+  DbHelper provideDbHelper(Context context) {
+    return new DbHelper(context, "quotes.db", 1);
   }
 }
