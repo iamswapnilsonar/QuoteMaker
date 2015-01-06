@@ -1,4 +1,4 @@
-package com.thuytrinh.quotemaker.viewmodel;
+package com.thuytrinh.quotemaker.viewmodel.rx;
 
 import rx.Observable;
 import rx.functions.Action1;

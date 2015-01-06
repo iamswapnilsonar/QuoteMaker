@@ -1,8 +1,6 @@
-package com.thuytrinh.quotemaker.viewmodel;
+package com.thuytrinh.quotemaker.viewmodel.rx;
 
 import android.support.annotation.NonNull;
-
-import com.thuytrinh.quotemaker.ChangeInfo;
 
 import java.util.Collection;
 import java.util.Iterator;

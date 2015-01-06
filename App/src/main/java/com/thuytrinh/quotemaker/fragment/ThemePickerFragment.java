@@ -1,20 +1,22 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.thuytrinh.quotemaker.ObjectCreator;
+import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.view.ThemesView;
-import com.thuytrinh.quotemaker.viewmodel.ColorPickerViewModel;
 import com.thuytrinh.quotemaker.viewmodel.ForViewModel;
+import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
 
 import javax.inject.Inject;
 
-public class ColorPickerFragment extends BaseFragment implements ForViewModel<ColorPickerViewModel> {
-  @Inject ColorPickerViewModel viewModel;
+public class ThemePickerFragment extends BaseFragment implements ForViewModel<ThemePicker> {
+  @Inject ThemePicker viewModel;
 
-  public ColorPickerFragment() {
-    super(R.layout.fragment_color_picker);
+  public ThemePickerFragment() {
+    super(R.layout.fragment_theme_picker);
   }
 
   @Override
@@ -36,12 +38,12 @@ public class ColorPickerFragment extends BaseFragment implements ForViewModel<Co
       }
     });
 
-    ThemesView colorsView = (ThemesView) view.findViewById(R.id.colorsView);
-    colorsView.themes.setValue(viewModel.getThemes());
+    ThemesView themesView = (ThemesView) view.findViewById(R.id.themesView);
+    themesView.themes.setValue(viewModel.getThemes());
   }
 
   @Override
-  public ColorPickerViewModel getViewModel() {
+  public ThemePicker getViewModel() {
     return viewModel;
   }
 }

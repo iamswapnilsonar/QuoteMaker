@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.ObjectCreator;
-import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
-import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
+import com.thuytrinh.quotemaker.viewmodel.TextItem;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import javax.inject.Inject;
 
@@ -23,8 +23,8 @@ import rx.Subscription;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
-public class CoolTextView extends TextView {
-  public final ObservableProperty<TextViewModel> viewModel = new ObservableProperty<>();
+public class TextItemView extends TextView {
+  public final ObservableProperty<TextItem> viewModel = new ObservableProperty<>();
   private final PublishSubject<MotionEvent> onUp = PublishSubject.create();
 
   @Inject Bus eventBus;
@@ -32,23 +32,23 @@ public class CoolTextView extends TextView {
   private Subscription viewModelSubscription;
   private GestureDetector gestureDetector;
 
-  public CoolTextView(Context context) {
+  public TextItemView(Context context) {
     super(context);
     init();
   }
 
-  public CoolTextView(Context context, AttributeSet attrs) {
+  public TextItemView(Context context, AttributeSet attrs) {
     super(context, attrs);
     init();
   }
 
-  public CoolTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+  public TextItemView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     init();
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public CoolTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+  public TextItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init();
   }
@@ -61,9 +61,9 @@ public class CoolTextView extends TextView {
   protected void onAttachedToWindow() {
     super.onAttachedToWindow();
 
-    viewModelSubscription = viewModel.observe().subscribe(new Action1<TextViewModel>() {
+    viewModelSubscription = viewModel.observe().subscribe(new Action1<TextItem>() {
       @Override
-      public void call(TextViewModel value) {
+      public void call(TextItem value) {
         bind(value);
       }
     });
@@ -107,7 +107,7 @@ public class CoolTextView extends TextView {
         viewModel.getValue().y.setValue(downY + offsetY);
 
         // TODO: Fix this EventBus pattern.
-        eventBus.post(new ScrollEvent(CoolTextView.this, moveEvent));
+        eventBus.post(new DragEvent(TextItemView.this, moveEvent));
         return true;
       }
 
@@ -125,7 +125,7 @@ public class CoolTextView extends TextView {
           onUp.onNext(event);
 
           // TODO: Fix this EventBus pattern.
-          eventBus.post(new UpEvent(CoolTextView.this, event));
+          eventBus.post(new UpEvent(TextItemView.this, event));
         }
 
         return gestureDetector.onTouchEvent(event);
@@ -133,7 +133,7 @@ public class CoolTextView extends TextView {
     });
   }
 
-  private void bind(TextViewModel viewModel) {
+  private void bind(TextItem viewModel) {
     viewModel.text.observe().subscribe(new Action1<CharSequence>() {
       @Override
       public void call(CharSequence text) {
@@ -172,21 +172,21 @@ public class CoolTextView extends TextView {
     });
   }
 
-  public static class ScrollEvent {
-    public final CoolTextView view;
-    public final MotionEvent moveEvent;
+  public static class DragEvent {
+    public final TextItemView view;
+    public final MotionEvent dragEvent;
 
-    public ScrollEvent(@NonNull CoolTextView view, @NonNull MotionEvent moveEvent) {
+    public DragEvent(@NonNull TextItemView view, @NonNull MotionEvent dragEvent) {
       this.view = view;
-      this.moveEvent = moveEvent;
+      this.dragEvent = dragEvent;
     }
   }
 
   public static class UpEvent {
-    public final CoolTextView view;
+    public final TextItemView view;
     public final MotionEvent moveEvent;
 
-    public UpEvent(@NonNull CoolTextView view, @NonNull MotionEvent moveEvent) {
+    public UpEvent(@NonNull TextItemView view, @NonNull MotionEvent moveEvent) {
       this.view = view;
       this.moveEvent = moveEvent;
     }

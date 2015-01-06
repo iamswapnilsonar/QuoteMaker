@@ -1,4 +1,4 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+
+import com.thuytrinh.quotemaker.BuildConfig;
+import com.thuytrinh.quotemaker.R;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;

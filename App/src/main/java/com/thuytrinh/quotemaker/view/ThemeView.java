@@ -7,14 +7,14 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.thuytrinh.quotemaker.R;
-import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
-import com.thuytrinh.quotemaker.viewmodel.ThemeViewModel;
+import com.thuytrinh.quotemaker.viewmodel.Theme;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import rx.Subscription;
 import rx.functions.Action1;
 
 public class ThemeView extends SquareView {
-  public final ObservableProperty<ThemeViewModel> theme = new ObservableProperty<>();
+  public final ObservableProperty<Theme> theme = new ObservableProperty<>();
   private View checkMarkView;
   private View colorView;
   private Subscription subscription;
@@ -53,17 +53,17 @@ public class ThemeView extends SquareView {
     checkMarkView = findViewById(R.id.checkMarkView);
 
     theme.observe()
-        .doOnNext(new Action1<ThemeViewModel>() {
+        .doOnNext(new Action1<Theme>() {
           @Override
-          public void call(ThemeViewModel theme) {
+          public void call(Theme theme) {
             if (subscription != null) {
               subscription.unsubscribe();
             }
           }
         })
-        .subscribe(new Action1<ThemeViewModel>() {
+        .subscribe(new Action1<Theme>() {
           @Override
-          public void call(final ThemeViewModel theme) {
+          public void call(final Theme theme) {
             colorView.setBackgroundColor(theme.getBackgroundColor());
 
             subscription = theme.isSelected().observe().subscribe(new Action1<Boolean>() {

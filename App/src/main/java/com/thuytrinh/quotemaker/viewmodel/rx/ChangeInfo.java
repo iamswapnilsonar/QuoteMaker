@@ -1,4 +1,4 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.viewmodel.rx;
 
 public class ChangeInfo {
   public final int positionStart;

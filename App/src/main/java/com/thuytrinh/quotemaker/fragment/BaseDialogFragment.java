@@ -1,17 +1,17 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseDialogFragment extends DialogFragment {
   private final int layout;
 
-  protected BaseFragment(@LayoutRes int layout) {
+  protected BaseDialogFragment(@LayoutRes int layout) {
     this.layout = layout;
   }
 

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
+import com.thuytrinh.quotemaker.viewmodel.FontItem;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class FontsAdapter extends RecyclerView.Adapter<FontsAdapter.ViewHolder> {
-  private List<FontViewModel> fonts = Collections.emptyList();
+  private List<FontItem> fonts = Collections.emptyList();
 
   @Inject
   public FontsAdapter() {}
@@ -28,7 +28,7 @@ public class FontsAdapter extends RecyclerView.Adapter<FontsAdapter.ViewHolder> 
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    final FontViewModel font = fonts.get(position);
+    final FontItem font = fonts.get(position);
 
     TextView itemView = (TextView) holder.itemView;
     itemView.setTypeface(font.typeface);
@@ -46,7 +46,7 @@ public class FontsAdapter extends RecyclerView.Adapter<FontsAdapter.ViewHolder> 
     return fonts.size();
   }
 
-  public void setFonts(List<FontViewModel> fonts) {
+  public void setFonts(List<FontItem> fonts) {
     this.fonts = fonts;
     notifyDataSetChanged();
   }

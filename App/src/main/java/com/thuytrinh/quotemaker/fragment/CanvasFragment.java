@@ -1,4 +1,4 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,11 +10,13 @@ import android.view.View;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.thuytrinh.quotemaker.ObjectCreator;
+import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.view.CanvasView;
-import com.thuytrinh.quotemaker.view.CoolTextView;
-import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
-import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
-import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
+import com.thuytrinh.quotemaker.view.TextItemView;
+import com.thuytrinh.quotemaker.viewmodel.FontItem;
+import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
+import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,10 +27,10 @@ import javax.inject.Inject;
 import rx.functions.Action1;
 
 public class CanvasFragment extends BaseFragment {
-  @Inject CanvasViewModel viewModel;
+  @Inject QuoteEditor viewModel;
   @Inject Bus eventBus;
 
-  private TextViewModel selectedItem;
+  private TextItem selectedItem;
   private View deleteView;
 
   public CanvasFragment() {
@@ -89,11 +91,11 @@ public class CanvasFragment extends BaseFragment {
     chooseBackgroundButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ColorPickerFragment colorPickerFragment = new ColorPickerFragment();
+        ThemePickerFragment themePickerFragment = new ThemePickerFragment();
         getFragmentManager()
             .beginTransaction()
-            .add(android.R.id.content, colorPickerFragment)
-            .addToBackStack("colorPicker")
+            .add(android.R.id.content, themePickerFragment)
+            .addToBackStack("themePicker")
             .commit();
       }
     });
@@ -106,7 +108,7 @@ public class CanvasFragment extends BaseFragment {
         fragment.onDone().subscribe(new Action1<CharSequence>() {
           @Override
           public void call(CharSequence text) {
-            TextViewModel newItem = new TextViewModel();
+            TextItem newItem = new TextItem();
             newItem.text.setValue(text);
 
             viewModel.items.add(newItem);
@@ -150,7 +152,7 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(TextViewModel item) {
+  public void onEvent(TextItem item) {
     selectedItem = item;
     getFragmentManager()
         .beginTransaction()
@@ -160,8 +162,8 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(FontViewModel fontViewModel) {
-    selectedItem.fontPath.setValue(fontViewModel.fontPath);
+  public void onEvent(FontItem fontItem) {
+    selectedItem.fontPath.setValue(fontItem.fontPath);
   }
 
   /**
@@ -189,10 +191,10 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(CoolTextView.ScrollEvent event) {
+  public void onEvent(TextItemView.DragEvent event) {
     if (isPointInsideView(
-        (int) event.moveEvent.getRawX(),
-        (int) event.moveEvent.getRawY(),
+        (int) event.dragEvent.getRawX(),
+        (int) event.dragEvent.getRawY(),
         deleteView
     )) {
       event.view.setAlpha(0.5f);
@@ -202,7 +204,7 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(CoolTextView.UpEvent event) {
+  public void onEvent(TextItemView.UpEvent event) {
     if (isPointInsideView(
         (int) event.moveEvent.getRawX(),
         (int) event.moveEvent.getRawY(),

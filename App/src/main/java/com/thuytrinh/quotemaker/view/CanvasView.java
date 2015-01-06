@@ -7,17 +7,17 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
-import com.thuytrinh.quotemaker.ChangeInfo;
 import com.thuytrinh.quotemaker.R;
-import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
-import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
-import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
+import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
+import com.thuytrinh.quotemaker.viewmodel.TextItem;
+import com.thuytrinh.quotemaker.viewmodel.rx.ChangeInfo;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import rx.Subscription;
 import rx.functions.Action1;
 
 public class CanvasView extends FrameLayout {
-  public final ObservableProperty<CanvasViewModel> viewModel = new ObservableProperty<>();
+  public final ObservableProperty<QuoteEditor> viewModel = new ObservableProperty<>();
   private Subscription viewModelSubscription;
 
   public CanvasView(Context context) {
@@ -41,9 +41,9 @@ public class CanvasView extends FrameLayout {
   protected void onAttachedToWindow() {
     super.onAttachedToWindow();
 
-    viewModelSubscription = viewModel.observe().subscribe(new Action1<CanvasViewModel>() {
+    viewModelSubscription = viewModel.observe().subscribe(new Action1<QuoteEditor>() {
       @Override
-      public void call(CanvasViewModel viewModel) {
+      public void call(QuoteEditor viewModel) {
         bind(viewModel);
       }
     });
@@ -58,16 +58,16 @@ public class CanvasView extends FrameLayout {
     }
   }
 
-  private void bind(final CanvasViewModel viewModel) {
+  private void bind(final QuoteEditor viewModel) {
     viewModel.items.onItemsInserted()
         .subscribe(new Action1<ChangeInfo>() {
           @Override
           public void call(ChangeInfo changeInfo) {
-            final CoolTextView newItemView = (CoolTextView) LayoutInflater.from(getContext())
-                .inflate(R.layout.view_text, CanvasView.this, false);
+            final TextItemView newItemView = (TextItemView) LayoutInflater.from(getContext())
+                .inflate(R.layout.view_text_item, CanvasView.this, false);
             addView(newItemView);
 
-            TextViewModel newItem = viewModel.items.get(changeInfo.positionStart);
+            TextItem newItem = viewModel.items.get(changeInfo.positionStart);
             newItem.delete.observe()
                 .subscribe(new Action1<Object>() {
                   @Override

@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.R;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableList;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import java.util.ArrayList;
 
@@ -12,21 +14,22 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.functions.Action1;
 
-public class CanvasViewModel {
-  public final ObservableList<TextViewModel> items = new ObservableList<>(new ArrayList<TextViewModel>());
+public class QuoteEditor {
+  public final ObservableList<TextItem> items = new ObservableList<>(new ArrayList<TextItem>());
   public final ObservableProperty<Integer> backgroundColor;
-  private final Context context;
+  private final Context appContext;
 
   @Inject
-  public CanvasViewModel(Context context) {
-    this.context = context;
+  public QuoteEditor(Context appContext) {
+    this.appContext = appContext;
 
-    backgroundColor = new ObservableProperty<>(context.getResources().getColor(R.color.teal));
+    // Default background color.
+    backgroundColor = new ObservableProperty<>(appContext.getResources().getColor(R.color.teal));
 
     Observable.from(items)
-        .subscribe(new Action1<TextViewModel>() {
+        .subscribe(new Action1<TextItem>() {
           @Override
-          public void call(final TextViewModel item) {
+          public void call(final TextItem item) {
             item.delete.observe()
                 .subscribe(new Action1<Object>() {
                   @Override
@@ -39,7 +42,7 @@ public class CanvasViewModel {
   }
 
   @Subscribe
-  public void onEvent(ThemeViewModel selectedTheme) {
+  public void onEvent(Theme selectedTheme) {
     backgroundColor.setValue(selectedTheme.getBackgroundColor());
   }
 }
