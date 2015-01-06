@@ -23,7 +23,7 @@ import rx.Subscription;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
-public class CoolTextView extends TextView {
+public class TextItemView extends TextView {
   public final ObservableProperty<TextItem> viewModel = new ObservableProperty<>();
   private final PublishSubject<MotionEvent> onUp = PublishSubject.create();
 
@@ -32,23 +32,23 @@ public class CoolTextView extends TextView {
   private Subscription viewModelSubscription;
   private GestureDetector gestureDetector;
 
-  public CoolTextView(Context context) {
+  public TextItemView(Context context) {
     super(context);
     init();
   }
 
-  public CoolTextView(Context context, AttributeSet attrs) {
+  public TextItemView(Context context, AttributeSet attrs) {
     super(context, attrs);
     init();
   }
 
-  public CoolTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+  public TextItemView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     init();
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public CoolTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+  public TextItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init();
   }
@@ -107,7 +107,7 @@ public class CoolTextView extends TextView {
         viewModel.getValue().y.setValue(downY + offsetY);
 
         // TODO: Fix this EventBus pattern.
-        eventBus.post(new ScrollEvent(CoolTextView.this, moveEvent));
+        eventBus.post(new ScrollEvent(TextItemView.this, moveEvent));
         return true;
       }
 
@@ -125,7 +125,7 @@ public class CoolTextView extends TextView {
           onUp.onNext(event);
 
           // TODO: Fix this EventBus pattern.
-          eventBus.post(new UpEvent(CoolTextView.this, event));
+          eventBus.post(new UpEvent(TextItemView.this, event));
         }
 
         return gestureDetector.onTouchEvent(event);
@@ -173,20 +173,20 @@ public class CoolTextView extends TextView {
   }
 
   public static class ScrollEvent {
-    public final CoolTextView view;
+    public final TextItemView view;
     public final MotionEvent moveEvent;
 
-    public ScrollEvent(@NonNull CoolTextView view, @NonNull MotionEvent moveEvent) {
+    public ScrollEvent(@NonNull TextItemView view, @NonNull MotionEvent moveEvent) {
       this.view = view;
       this.moveEvent = moveEvent;
     }
   }
 
   public static class UpEvent {
-    public final CoolTextView view;
+    public final TextItemView view;
     public final MotionEvent moveEvent;
 
-    public UpEvent(@NonNull CoolTextView view, @NonNull MotionEvent moveEvent) {
+    public UpEvent(@NonNull TextItemView view, @NonNull MotionEvent moveEvent) {
       this.view = view;
       this.moveEvent = moveEvent;
     }

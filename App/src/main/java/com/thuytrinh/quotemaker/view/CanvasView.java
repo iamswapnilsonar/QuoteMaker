@@ -63,8 +63,8 @@ public class CanvasView extends FrameLayout {
         .subscribe(new Action1<ChangeInfo>() {
           @Override
           public void call(ChangeInfo changeInfo) {
-            final CoolTextView newItemView = (CoolTextView) LayoutInflater.from(getContext())
-                .inflate(R.layout.view_text, CanvasView.this, false);
+            final TextItemView newItemView = (TextItemView) LayoutInflater.from(getContext())
+                .inflate(R.layout.view_text_item, CanvasView.this, false);
             addView(newItemView);
 
             TextItem newItem = viewModel.items.get(changeInfo.positionStart);

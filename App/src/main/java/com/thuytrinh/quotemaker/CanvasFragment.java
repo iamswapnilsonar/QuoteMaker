@@ -11,7 +11,7 @@ import android.view.View;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.view.CanvasView;
-import com.thuytrinh.quotemaker.view.CoolTextView;
+import com.thuytrinh.quotemaker.view.TextItemView;
 import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
@@ -189,7 +189,7 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(CoolTextView.ScrollEvent event) {
+  public void onEvent(TextItemView.ScrollEvent event) {
     if (isPointInsideView(
         (int) event.moveEvent.getRawX(),
         (int) event.moveEvent.getRawY(),
@@ -202,7 +202,7 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(CoolTextView.UpEvent event) {
+  public void onEvent(TextItemView.UpEvent event) {
     if (isPointInsideView(
         (int) event.moveEvent.getRawX(),
         (int) event.moveEvent.getRawY(),

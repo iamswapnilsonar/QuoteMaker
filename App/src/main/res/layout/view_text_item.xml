@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.thuytrinh.quotemaker.view.CoolTextView
-  android:id="@+id/textView"
+<com.thuytrinh.quotemaker.view.TextItemView
+  android:id="@+id/textItemView"
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="wrap_content"

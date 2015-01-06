@@ -3,7 +3,7 @@ package com.thuytrinh.quotemaker;
 import android.content.Context;
 
 import com.squareup.otto.Bus;
-import com.thuytrinh.quotemaker.view.CoolTextView;
+import com.thuytrinh.quotemaker.view.TextItemView;
 import com.thuytrinh.quotemaker.viewmodel.ColorPickerViewModel;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
 import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
@@ -14,7 +14,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module(injects = {
-    CoolTextView.class,
+    TextItemView.class,
     CanvasFragment.class,
     ColorPickerFragment.class,
     FontPickerFragment.class,
