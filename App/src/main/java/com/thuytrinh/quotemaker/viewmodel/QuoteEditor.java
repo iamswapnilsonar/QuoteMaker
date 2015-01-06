@@ -42,7 +42,7 @@ public class QuoteEditor {
   }
 
   @Subscribe
-  public void onEvent(ThemeViewModel selectedTheme) {
+  public void onEvent(Theme selectedTheme) {
     backgroundColor.setValue(selectedTheme.getBackgroundColor());
   }
 }

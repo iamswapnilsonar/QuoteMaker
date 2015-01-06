@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import rx.functions.Action1;
 
 public class FontPicker {
-  public final List<FontViewModel> fonts = new ArrayList<>();
+  public final List<FontItem> fonts = new ArrayList<>();
   private final Bus eventBus;
   private final Context appContext;
 
@@ -55,14 +55,14 @@ public class FontPicker {
     for (int i = 0, size = fontPaths.size(); i < size; i++) {
       String fontPath = fontPaths.get(i);
       Typeface typeface = Typeface.createFromAsset(appContext.getAssets(), fontPath);
-      fonts.add(new FontViewModel(
+      fonts.add(new FontItem(
           previews[i],
           fontPath,
           typeface
       ));
     }
 
-    for (final FontViewModel font : fonts) {
+    for (final FontItem font : fonts) {
       font.isSelected.observe().subscribe(new Action1<Boolean>() {
         @Override
         public void call(Boolean value) {

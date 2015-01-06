@@ -14,7 +14,7 @@ import com.thuytrinh.quotemaker.ObjectCreator;
 import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.view.TextItemView;
-import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
+import com.thuytrinh.quotemaker.viewmodel.FontItem;
 import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
@@ -162,8 +162,8 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(FontViewModel fontViewModel) {
-    selectedItem.fontPath.setValue(fontViewModel.fontPath);
+  public void onEvent(FontItem fontItem) {
+    selectedItem.fontPath.setValue(fontItem.fontPath);
   }
 
   /**

@@ -7,13 +7,13 @@ import android.view.View;
 import com.thuytrinh.quotemaker.ObjectCreator;
 import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.view.ThemesView;
-import com.thuytrinh.quotemaker.viewmodel.ColorPickerViewModel;
 import com.thuytrinh.quotemaker.viewmodel.ForViewModel;
+import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
 
 import javax.inject.Inject;
 
-public class ColorPickerFragment extends BaseFragment implements ForViewModel<ColorPickerViewModel> {
-  @Inject ColorPickerViewModel viewModel;
+public class ColorPickerFragment extends BaseFragment implements ForViewModel<ThemePicker> {
+  @Inject ThemePicker viewModel;
 
   public ColorPickerFragment() {
     super(R.layout.fragment_color_picker);
@@ -43,7 +43,7 @@ public class ColorPickerFragment extends BaseFragment implements ForViewModel<Co
   }
 
   @Override
-  public ColorPickerViewModel getViewModel() {
+  public ThemePicker getViewModel() {
     return viewModel;
   }
 }

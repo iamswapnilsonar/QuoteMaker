@@ -7,9 +7,9 @@ import com.thuytrinh.quotemaker.fragment.CanvasFragment;
 import com.thuytrinh.quotemaker.fragment.ColorPickerFragment;
 import com.thuytrinh.quotemaker.fragment.FontPickerFragment;
 import com.thuytrinh.quotemaker.view.TextItemView;
-import com.thuytrinh.quotemaker.viewmodel.ColorPickerViewModel;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
 import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
+import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
 
 import javax.inject.Singleton;
 
@@ -22,7 +22,7 @@ import dagger.Provides;
     ColorPickerFragment.class,
     FontPickerFragment.class,
     FontsAdapter.class,
-    ColorPickerViewModel.class,
+    ThemePicker.class,
     QuoteEditor.class,
     FontPicker.class
 }, library = true)
