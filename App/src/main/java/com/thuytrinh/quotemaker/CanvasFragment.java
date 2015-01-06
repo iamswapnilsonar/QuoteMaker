@@ -11,6 +11,7 @@ import android.view.View;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.view.CanvasView;
+import com.thuytrinh.quotemaker.view.CoolTextView;
 import com.thuytrinh.quotemaker.viewmodel.CanvasViewModel;
 import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
 import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
@@ -27,10 +28,29 @@ public class CanvasFragment extends BaseFragment {
   @Inject CanvasViewModel viewModel;
   @Inject Bus eventBus;
 
-  private TextViewModel selectedTextViewModel;
+  private TextViewModel selectedItem;
+  private View deleteView;
 
   public CanvasFragment() {
     super(R.layout.fragment_canvas);
+  }
+
+  /**
+   * Determines if given points are inside view
+   *
+   * @param x    x coordinate of point
+   * @param y    y coordinate of point
+   * @param view view object to compare
+   * @return true if the points are within view bounds, false otherwise
+   */
+  public static boolean isPointInsideView(float x, float y, View view) {
+    int location[] = new int[2];
+    view.getLocationOnScreen(location);
+    int viewX = location[0];
+    int viewY = location[1];
+
+    return (x > viewX && x < (viewX + view.getWidth())) &&
+        (y > viewY && y < (viewY + view.getHeight()));
   }
 
   @Override
@@ -125,11 +145,13 @@ public class CanvasFragment extends BaseFragment {
         }
       }
     });
+
+    deleteView = view.findViewById(R.id.deleteView);
   }
 
   @Subscribe
-  public void onEvent(TextViewModel textViewModel) {
-    selectedTextViewModel = textViewModel;
+  public void onEvent(TextViewModel item) {
+    selectedItem = item;
     getFragmentManager()
         .beginTransaction()
         .add(android.R.id.content, new FontPickerFragment())
@@ -139,7 +161,7 @@ public class CanvasFragment extends BaseFragment {
 
   @Subscribe
   public void onEvent(FontViewModel fontViewModel) {
-    selectedTextViewModel.fontPath.setValue(fontViewModel.fontPath);
+    selectedItem.fontPath.setValue(fontViewModel.fontPath);
   }
 
   /**
@@ -147,22 +169,46 @@ public class CanvasFragment extends BaseFragment {
    */
   @Subscribe
   public void onEvent(Integer textGravity) {
-    selectedTextViewModel.gravity.setValue(textGravity);
+    selectedItem.gravity.setValue(textGravity);
   }
 
   @Subscribe
   public void onEvent(Float sizeIncrement) {
-    selectedTextViewModel.size.setValue(selectedTextViewModel.size.getValue() + sizeIncrement);
+    selectedItem.size.setValue(selectedItem.size.getValue() + sizeIncrement);
   }
 
   @Subscribe
   public void onEvent(Pair<Float, Float> alignment) {
-    selectedTextViewModel.x.setValue(alignment.first);
-    selectedTextViewModel.y.setValue(alignment.second);
+    selectedItem.x.setValue(alignment.first);
+    selectedItem.y.setValue(alignment.second);
   }
 
   @Subscribe
   public void onEvent(String text) {
-    selectedTextViewModel.text.setValue(text);
+    selectedItem.text.setValue(text);
+  }
+
+  @Subscribe
+  public void onEvent(CoolTextView.ScrollEvent event) {
+    if (isPointInsideView(
+        (int) event.moveEvent.getRawX(),
+        (int) event.moveEvent.getRawY(),
+        deleteView
+    )) {
+      event.view.setAlpha(0.5f);
+    } else {
+      event.view.setAlpha(1f);
+    }
+  }
+
+  @Subscribe
+  public void onEvent(CoolTextView.UpEvent event) {
+    if (isPointInsideView(
+        (int) event.moveEvent.getRawX(),
+        (int) event.moveEvent.getRawY(),
+        deleteView
+    )) {
+      event.view.viewModel.getValue().delete.call(null);
+    }
   }
 }
