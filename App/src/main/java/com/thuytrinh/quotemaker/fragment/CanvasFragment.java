@@ -1,4 +1,4 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,10 +10,12 @@ import android.view.View;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.thuytrinh.quotemaker.ObjectCreator;
+import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.view.TextItemView;
-import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
+import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
 import java.io.File;

@@ -1,9 +1,11 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.thuytrinh.quotemaker.ObjectCreator;
+import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.view.ThemesView;
 import com.thuytrinh.quotemaker.viewmodel.ColorPickerViewModel;
 import com.thuytrinh.quotemaker.viewmodel.ForViewModel;

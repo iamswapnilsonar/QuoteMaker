@@ -9,8 +9,8 @@ import android.widget.FrameLayout;
 
 import com.thuytrinh.quotemaker.ChangeInfo;
 import com.thuytrinh.quotemaker.R;
-import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
+import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
 import rx.Subscription;

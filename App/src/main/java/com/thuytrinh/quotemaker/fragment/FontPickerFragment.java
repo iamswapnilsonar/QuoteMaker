@@ -1,4 +1,4 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,9 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.squareup.otto.Bus;
+import com.thuytrinh.quotemaker.FontsAdapter;
+import com.thuytrinh.quotemaker.ObjectCreator;
+import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
 import com.thuytrinh.quotemaker.viewmodel.ForViewModel;
 
