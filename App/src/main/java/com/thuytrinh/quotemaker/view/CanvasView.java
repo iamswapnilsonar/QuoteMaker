@@ -59,16 +59,24 @@ public class CanvasView extends FrameLayout {
   }
 
   private void bind(final CanvasViewModel viewModel) {
-    viewModel.items.onItemsInserted().subscribe(new Action1<ChangeInfo>() {
-      @Override
-      public void call(ChangeInfo changeInfo) {
-        final CoolTextView newItemView = (CoolTextView) LayoutInflater.from(getContext())
-            .inflate(R.layout.view_text, CanvasView.this, false);
-        addView(newItemView);
+    viewModel.items.onItemsInserted()
+        .subscribe(new Action1<ChangeInfo>() {
+          @Override
+          public void call(ChangeInfo changeInfo) {
+            final CoolTextView newItemView = (CoolTextView) LayoutInflater.from(getContext())
+                .inflate(R.layout.view_text, CanvasView.this, false);
+            addView(newItemView);
 
-        TextViewModel newItem = viewModel.items.get(changeInfo.positionStart);
-        newItemView.viewModel.setValue(newItem);
-      }
-    });
+            TextViewModel newItem = viewModel.items.get(changeInfo.positionStart);
+            newItem.delete.observe()
+                .subscribe(new Action1<Object>() {
+                  @Override
+                  public void call(Object unused) {
+                    removeView(newItemView);
+                  }
+                });
+            newItemView.viewModel.setValue(newItem);
+          }
+        });
   }
 }

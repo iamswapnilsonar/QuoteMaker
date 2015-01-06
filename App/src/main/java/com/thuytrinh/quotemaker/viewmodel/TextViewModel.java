@@ -14,14 +14,11 @@ public class TextViewModel {
   public final ObservableProperty<Float> y = new ObservableProperty<>(0f);
   public final ObservableProperty<Integer> gravity = new ObservableProperty<>(Gravity.RIGHT);
   public final ObservableProperty<Float> size = new ObservableProperty<>(45f);
+  public final ObservableAction<Object> delete = new ObservableAction<>();
 
   public TextViewModel() {
-    // fontPath.setValue("fonts/League Gothic.otf");
-    // fontPath.setValue("fonts/BEBAS___.ttf");
+    // Default font.
     fontPath.setValue("fonts/Anton.ttf");
-    // fontPath.setValue("fonts/pacifico.ttf");
-    // fontPath.setValue("fonts/Raleway-ExtraLight.ttf");
-    // fontPath.setValue("fonts/MrDeHaviland-Regular.ttf");
   }
 
   public Observable<Typeface> getTypeface(final Context appContext) {

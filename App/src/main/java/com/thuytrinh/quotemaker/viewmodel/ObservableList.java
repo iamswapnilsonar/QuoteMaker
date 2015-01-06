@@ -1,6 +1,8 @@
-package com.thuytrinh.quotemaker;
+package com.thuytrinh.quotemaker.viewmodel;
 
 import android.support.annotation.NonNull;
+
+import com.thuytrinh.quotemaker.ChangeInfo;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,11 +15,13 @@ import rx.subjects.PublishSubject;
 public class ObservableList<T> implements List<T> {
   private List<T> decoratedList;
   private PublishSubject<ChangeInfo> onItemsInserted;
+  private PublishSubject<ChangeInfo> onItemsRemoved;
 
   public ObservableList(List<T> decoratedList) {
     this.decoratedList = decoratedList;
 
     onItemsInserted = PublishSubject.create();
+    onItemsRemoved = PublishSubject.create();
   }
 
   @Override
@@ -103,7 +107,10 @@ public class ObservableList<T> implements List<T> {
 
   @Override
   public boolean remove(Object object) {
-    return decoratedList.remove(object);
+    int i = decoratedList.indexOf(object);
+    boolean result = decoratedList.remove(object);
+    onItemsRemoved.onNext(new ChangeInfo(i, 1));
+    return result;
   }
 
   @Override
@@ -146,5 +153,9 @@ public class ObservableList<T> implements List<T> {
 
   public Observable<ChangeInfo> onItemsInserted() {
     return onItemsInserted;
+  }
+
+  public Observable<ChangeInfo> onItemsRemoved() {
+    return onItemsRemoved;
   }
 }

@@ -5,7 +5,7 @@ import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
 
 public class ObservableProperty<T> implements Action1<T> {
-  protected final BehaviorSubject<T> valueSubject;
+  private final BehaviorSubject<T> valueSubject;
   private T value;
 
   public ObservableProperty() {

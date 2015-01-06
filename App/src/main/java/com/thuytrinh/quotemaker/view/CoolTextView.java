@@ -18,11 +18,15 @@ import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
+import rx.subjects.PublishSubject;
 
 public class CoolTextView extends TextView {
   public final ObservableProperty<TextViewModel> viewModel = new ObservableProperty<>();
+  private final PublishSubject<MotionEvent> onUp = PublishSubject.create();
+
   @Inject Bus eventBus;
 
   private Subscription viewModelSubscription;
@@ -47,6 +51,10 @@ public class CoolTextView extends TextView {
   public CoolTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init();
+  }
+
+  public Observable<MotionEvent> onUp() {
+    return onUp;
   }
 
   @Override
@@ -113,6 +121,13 @@ public class CoolTextView extends TextView {
     setOnTouchListener(new OnTouchListener() {
       @Override
       public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+          onUp.onNext(event);
+
+          // TODO: Fix this EventBus pattern.
+          eventBus.post(new UpEvent(CoolTextView.this, event));
+        }
+
         return gestureDetector.onTouchEvent(event);
       }
     });
@@ -162,6 +177,16 @@ public class CoolTextView extends TextView {
     public final MotionEvent moveEvent;
 
     public ScrollEvent(@NonNull CoolTextView view, @NonNull MotionEvent moveEvent) {
+      this.view = view;
+      this.moveEvent = moveEvent;
+    }
+  }
+
+  public static class UpEvent {
+    public final CoolTextView view;
+    public final MotionEvent moveEvent;
+
+    public UpEvent(@NonNull CoolTextView view, @NonNull MotionEvent moveEvent) {
       this.view = view;
       this.moveEvent = moveEvent;
     }
