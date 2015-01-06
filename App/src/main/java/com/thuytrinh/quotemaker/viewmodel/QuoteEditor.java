@@ -13,7 +13,7 @@ import rx.Observable;
 import rx.functions.Action1;
 
 public class QuoteEditor {
-  public final ObservableList<TextViewModel> items = new ObservableList<>(new ArrayList<TextViewModel>());
+  public final ObservableList<TextItem> items = new ObservableList<>(new ArrayList<TextItem>());
   public final ObservableProperty<Integer> backgroundColor;
   private final Context appContext;
 
@@ -25,9 +25,9 @@ public class QuoteEditor {
     backgroundColor = new ObservableProperty<>(appContext.getResources().getColor(R.color.teal));
 
     Observable.from(items)
-        .subscribe(new Action1<TextViewModel>() {
+        .subscribe(new Action1<TextItem>() {
           @Override
-          public void call(final TextViewModel item) {
+          public void call(final TextItem item) {
             item.delete.observe()
                 .subscribe(new Action1<Object>() {
                   @Override

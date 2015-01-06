@@ -11,7 +11,7 @@ import com.thuytrinh.quotemaker.ChangeInfo;
 import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
-import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
+import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
 import rx.Subscription;
 import rx.functions.Action1;
@@ -67,7 +67,7 @@ public class CanvasView extends FrameLayout {
                 .inflate(R.layout.view_text, CanvasView.this, false);
             addView(newItemView);
 
-            TextViewModel newItem = viewModel.items.get(changeInfo.positionStart);
+            TextItem newItem = viewModel.items.get(changeInfo.positionStart);
             newItem.delete.observe()
                 .subscribe(new Action1<Object>() {
                   @Override

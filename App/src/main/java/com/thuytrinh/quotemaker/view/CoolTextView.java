@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.ObjectCreator;
 import com.thuytrinh.quotemaker.viewmodel.ObservableProperty;
-import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
+import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
 import javax.inject.Inject;
 
@@ -24,7 +24,7 @@ import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
 public class CoolTextView extends TextView {
-  public final ObservableProperty<TextViewModel> viewModel = new ObservableProperty<>();
+  public final ObservableProperty<TextItem> viewModel = new ObservableProperty<>();
   private final PublishSubject<MotionEvent> onUp = PublishSubject.create();
 
   @Inject Bus eventBus;
@@ -61,9 +61,9 @@ public class CoolTextView extends TextView {
   protected void onAttachedToWindow() {
     super.onAttachedToWindow();
 
-    viewModelSubscription = viewModel.observe().subscribe(new Action1<TextViewModel>() {
+    viewModelSubscription = viewModel.observe().subscribe(new Action1<TextItem>() {
       @Override
-      public void call(TextViewModel value) {
+      public void call(TextItem value) {
         bind(value);
       }
     });
@@ -133,7 +133,7 @@ public class CoolTextView extends TextView {
     });
   }
 
-  private void bind(TextViewModel viewModel) {
+  private void bind(TextItem viewModel) {
     viewModel.text.observe().subscribe(new Action1<CharSequence>() {
       @Override
       public void call(CharSequence text) {

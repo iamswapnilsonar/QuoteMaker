@@ -7,7 +7,7 @@ import android.view.Gravity;
 import rx.Observable;
 import rx.functions.Func1;
 
-public class TextViewModel {
+public class TextItem {
   public final ObservableProperty<CharSequence> text = new ObservableProperty<>();
   public final ObservableProperty<String> fontPath = new ObservableProperty<>();
   public final ObservableProperty<Float> x = new ObservableProperty<>(0f);
@@ -16,7 +16,7 @@ public class TextViewModel {
   public final ObservableProperty<Float> size = new ObservableProperty<>(45f);
   public final ObservableAction<Object> delete = new ObservableAction<>();
 
-  public TextViewModel() {
+  public TextItem() {
     // Default font.
     fontPath.setValue("fonts/Anton.ttf");
   }

@@ -14,7 +14,7 @@ import com.thuytrinh.quotemaker.view.CanvasView;
 import com.thuytrinh.quotemaker.view.CoolTextView;
 import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
 import com.thuytrinh.quotemaker.viewmodel.FontViewModel;
-import com.thuytrinh.quotemaker.viewmodel.TextViewModel;
+import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,7 +28,7 @@ public class CanvasFragment extends BaseFragment {
   @Inject QuoteEditor viewModel;
   @Inject Bus eventBus;
 
-  private TextViewModel selectedItem;
+  private TextItem selectedItem;
   private View deleteView;
 
   public CanvasFragment() {
@@ -106,7 +106,7 @@ public class CanvasFragment extends BaseFragment {
         fragment.onDone().subscribe(new Action1<CharSequence>() {
           @Override
           public void call(CharSequence text) {
-            TextViewModel newItem = new TextViewModel();
+            TextItem newItem = new TextItem();
             newItem.text.setValue(text);
 
             viewModel.items.add(newItem);
@@ -150,7 +150,7 @@ public class CanvasFragment extends BaseFragment {
   }
 
   @Subscribe
-  public void onEvent(TextViewModel item) {
+  public void onEvent(TextItem item) {
     selectedItem = item;
     getFragmentManager()
         .beginTransaction()
