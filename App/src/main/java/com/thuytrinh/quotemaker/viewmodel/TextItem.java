@@ -11,7 +11,7 @@ import rx.Observable;
 import rx.functions.Func1;
 
 public class TextItem {
-  public static final DbTable TABLE = new DbTable("text_items", new DbField[] {
+  public static final DbTable TABLE = new DbTable("TextItems", new DbField[] {
       Fields.ID,
       Fields.TEXT,
       Fields.FONT_PATH,

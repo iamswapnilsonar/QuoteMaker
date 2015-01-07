@@ -15,7 +15,7 @@ import rx.Observable;
 import rx.functions.Action1;
 
 public class Quote {
-  public static final DbTable TABLE = new DbTable("quotes", new DbField[] {
+  public static final DbTable TABLE = new DbTable("Quotes", new DbField[] {
       Fields.ID,
       Fields.BG_COLOR
   });
