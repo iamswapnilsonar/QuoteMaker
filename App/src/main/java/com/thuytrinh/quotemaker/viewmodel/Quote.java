@@ -49,8 +49,8 @@ public class Quote {
   }
 
   // TODO: Should be observable.
-  public void save(DbHelper dbHelper) {
-    SQLiteDatabase database = dbHelper.getWritableDatabase();
+  public void save(DatabaseHelper databaseHelper) {
+    SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
     ContentValues values = new ContentValues();
     values.put(Fields.JSON_DATA.name, toJson().toString());

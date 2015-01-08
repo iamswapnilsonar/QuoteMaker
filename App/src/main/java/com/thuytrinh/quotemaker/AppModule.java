@@ -7,7 +7,7 @@ import com.thuytrinh.quotemaker.fragment.CanvasFragment;
 import com.thuytrinh.quotemaker.fragment.FontPickerFragment;
 import com.thuytrinh.quotemaker.fragment.ThemePickerFragment;
 import com.thuytrinh.quotemaker.view.TextItemView;
-import com.thuytrinh.quotemaker.viewmodel.DbHelper;
+import com.thuytrinh.quotemaker.viewmodel.DatabaseHelper;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
 import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
@@ -47,7 +47,7 @@ public class AppModule {
 
   @Provides
   @Singleton
-  DbHelper provideDbHelper(Context context) {
-    return new DbHelper(context, "quotes.db", 1);
+  DatabaseHelper provideDatabaseHelper(Context context) {
+    return new DatabaseHelper(context, "quotes.db", 1);
   }
 }

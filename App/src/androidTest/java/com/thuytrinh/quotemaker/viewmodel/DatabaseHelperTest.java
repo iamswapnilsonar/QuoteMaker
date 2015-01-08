@@ -6,11 +6,11 @@ import android.test.AndroidTestCase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DbHelperTest extends AndroidTestCase {
+public class DatabaseHelperTest extends AndroidTestCase {
   public void testShouldCreateQuoteTable() {
-    String dbName = "DbHelperTest" + System.currentTimeMillis();
-    DbHelper dbHelper = new DbHelper(getContext(), dbName, 1);
-    SQLiteDatabase db = dbHelper.getReadableDatabase();
+    String databaseName = "DatabaseHelperTest_" + System.currentTimeMillis();
+    DatabaseHelper databaseHelper = new DatabaseHelper(getContext(), databaseName, 1);
+    SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
     Cursor cursor = db.rawQuery("SELECT * FROM " + Quote.TABLE.name, null);
     assertThat(cursor.getColumnNames())
@@ -18,7 +18,7 @@ public class DbHelperTest extends AndroidTestCase {
         .containsExactly(Quote.TABLE.getFieldNames());
 
     cursor.close();
-    dbHelper.close();
-    assertTrue(getContext().getDatabasePath(dbName).delete());
+    databaseHelper.close();
+    assertTrue(getContext().getDatabasePath(databaseName).delete());
   }
 }

@@ -10,22 +10,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuoteTest extends AndroidTestCase {
   public void testShouldCreateNewQuoteOnDisk() {
-    String dbName = "QuoteTest_" + System.currentTimeMillis();
-    DbHelper dbHelper = new DbHelper(getContext(), dbName, 1);
+    String databaseName = "QuoteTest_" + System.currentTimeMillis();
+    DatabaseHelper databaseHelper = new DatabaseHelper(getContext(), databaseName, 1);
 
     Quote quote = new Quote();
     assertThat(quote.id.hasValue()).isFalse();
 
     int raspberry = getContext().getResources().getColor(R.color.raspberry);
     quote.backgroundColor.setValue(raspberry);
-    quote.save(dbHelper);
+    quote.save(databaseHelper);
 
     // Id should be updated then.
     assertThat(quote.id.hasValue()).isTrue();
     assertThat(quote.id.getValue()).isGreaterThan(0L);
 
     // There should be a newly inserted row in database.
-    SQLiteDatabase database = dbHelper.getReadableDatabase();
+    SQLiteDatabase database = databaseHelper.getReadableDatabase();
     Cursor cursor = database.rawQuery("SELECT * FROM " + Quote.TABLE.name, null);
     assertThat(cursor).isNotNull();
     assertThat(cursor.getCount()).isEqualTo(1);
@@ -39,7 +39,7 @@ public class QuoteTest extends AndroidTestCase {
 
     // Done!
     cursor.close();
-    dbHelper.close();
-    assertTrue(getContext().getDatabasePath(dbName).delete());
+    databaseHelper.close();
+    assertTrue(getContext().getDatabasePath(databaseName).delete());
   }
 }
