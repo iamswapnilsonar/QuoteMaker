@@ -34,8 +34,8 @@ public class QuoteTest extends AndroidTestCase {
     cursor.moveToFirst();
     assertThat(cursor.getLong(cursor.getColumnIndex(Quote.Fields.ID.name)))
         .isEqualTo(quote.id.getValue());
-    assertThat(cursor.getString(cursor.getColumnIndex(Quote.Fields.JSON_DATA.name)))
-        .isEqualTo(quote.toJson().toString());
+    assertThat(cursor.getInt(cursor.getColumnIndex(Quote.Fields.BACKGROUND_COLOR.name)))
+        .isEqualTo(quote.backgroundColor.getValue());
 
     // Done!
     cursor.close();

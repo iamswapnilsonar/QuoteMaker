@@ -12,6 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase database) {
     database.execSQL(Quote.TABLE.getCreateSql());
+    database.execSQL(TextItem.TABLE.getCreateSql());
   }
 
   @Override

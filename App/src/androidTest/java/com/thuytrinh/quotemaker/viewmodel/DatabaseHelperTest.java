@@ -21,4 +21,19 @@ public class DatabaseHelperTest extends AndroidTestCase {
     databaseHelper.close();
     assertTrue(getContext().getDatabasePath(databaseName).delete());
   }
+
+  public void testShouldCreateTextItemTable() {
+    String databaseName = "DatabaseHelperTest_" + System.currentTimeMillis();
+    DatabaseHelper databaseHelper = new DatabaseHelper(getContext(), databaseName, 1);
+    SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+    Cursor cursor = db.rawQuery("SELECT * FROM " + TextItem.TABLE.name, null);
+    assertThat(cursor.getColumnNames())
+        .isNotEmpty()
+        .containsExactly(TextItem.TABLE.getFieldNames());
+
+    cursor.close();
+    databaseHelper.close();
+    assertTrue(getContext().getDatabasePath(databaseName).delete());
+  }
 }

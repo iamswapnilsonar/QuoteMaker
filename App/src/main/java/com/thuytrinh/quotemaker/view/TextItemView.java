@@ -91,8 +91,8 @@ public class TextItemView extends TextView {
 
       @Override
       public boolean onDown(MotionEvent e) {
-        downX = viewModel.getValue().x.getValue();
-        downY = viewModel.getValue().y.getValue();
+        downX = viewModel.getValue().x().getValue();
+        downY = viewModel.getValue().y().getValue();
         return true;
       }
 
@@ -103,8 +103,8 @@ public class TextItemView extends TextView {
                               float distanceY) {
         float offsetX = moveEvent.getRawX() - downEvent.getRawX();
         float offsetY = moveEvent.getRawY() - downEvent.getRawY();
-        viewModel.getValue().x.setValue(downX + offsetX);
-        viewModel.getValue().y.setValue(downY + offsetY);
+        viewModel.getValue().x().setValue(downX + offsetX);
+        viewModel.getValue().y().setValue(downY + offsetY);
 
         // TODO: Fix this EventBus pattern.
         eventBus.post(new DragEvent(TextItemView.this, moveEvent));
@@ -134,7 +134,7 @@ public class TextItemView extends TextView {
   }
 
   private void bind(TextItem viewModel) {
-    viewModel.text.observe().subscribe(new Action1<CharSequence>() {
+    viewModel.text().observe().subscribe(new Action1<CharSequence>() {
       @Override
       public void call(CharSequence text) {
         setText(text);
@@ -146,25 +146,25 @@ public class TextItemView extends TextView {
         setTypeface(typeface);
       }
     });
-    viewModel.x.observe().subscribe(new Action1<Float>() {
+    viewModel.x().observe().subscribe(new Action1<Float>() {
       @Override
       public void call(Float x) {
         setTranslationX(x);
       }
     });
-    viewModel.y.observe().subscribe(new Action1<Float>() {
+    viewModel.y().observe().subscribe(new Action1<Float>() {
       @Override
       public void call(Float y) {
         setTranslationY(y);
       }
     });
-    viewModel.gravity.observe().subscribe(new Action1<Integer>() {
+    viewModel.gravity().observe().subscribe(new Action1<Integer>() {
       @Override
       public void call(Integer gravity) {
         setGravity(gravity);
       }
     });
-    viewModel.size.observe().subscribe(new Action1<Float>() {
+    viewModel.size().observe().subscribe(new Action1<Float>() {
       @Override
       public void call(Float size) {
         setTextSize(size);

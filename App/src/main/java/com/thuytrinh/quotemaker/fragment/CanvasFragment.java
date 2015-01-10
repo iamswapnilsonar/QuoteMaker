@@ -109,7 +109,7 @@ public class CanvasFragment extends BaseFragment {
           @Override
           public void call(CharSequence text) {
             TextItem newItem = new TextItem();
-            newItem.text.setValue(text);
+            newItem.text().setValue(text.toString());
 
             viewModel.items.add(newItem);
           }
@@ -163,7 +163,7 @@ public class CanvasFragment extends BaseFragment {
 
   @Subscribe
   public void onEvent(FontItem fontItem) {
-    selectedItem.fontPath.setValue(fontItem.fontPath);
+    selectedItem.fontPath().setValue(fontItem.fontPath);
   }
 
   /**
@@ -171,23 +171,23 @@ public class CanvasFragment extends BaseFragment {
    */
   @Subscribe
   public void onEvent(Integer textGravity) {
-    selectedItem.gravity.setValue(textGravity);
+    selectedItem.gravity().setValue(textGravity);
   }
 
   @Subscribe
   public void onEvent(Float sizeIncrement) {
-    selectedItem.size.setValue(selectedItem.size.getValue() + sizeIncrement);
+    selectedItem.size().setValue(selectedItem.size().getValue() + sizeIncrement);
   }
 
   @Subscribe
   public void onEvent(Pair<Float, Float> alignment) {
-    selectedItem.x.setValue(alignment.first);
-    selectedItem.y.setValue(alignment.second);
+    selectedItem.x().setValue(alignment.first);
+    selectedItem.y().setValue(alignment.second);
   }
 
   @Subscribe
   public void onEvent(String text) {
-    selectedItem.text.setValue(text);
+    selectedItem.text().setValue(text);
   }
 
   @Subscribe
@@ -210,7 +210,7 @@ public class CanvasFragment extends BaseFragment {
         (int) event.moveEvent.getRawY(),
         deleteView
     )) {
-      event.view.viewModel.getValue().delete.call(null);
+      event.view.viewModel.getValue().delete().call(null);
     }
   }
 }

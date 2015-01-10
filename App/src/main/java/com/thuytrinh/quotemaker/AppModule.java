@@ -48,6 +48,6 @@ public class AppModule {
   @Provides
   @Singleton
   DatabaseHelper provideDatabaseHelper(Context context) {
-    return new DatabaseHelper(context, "quotes.db", 1);
+    return new DatabaseHelper(context, "app.db", 1);
   }
 }

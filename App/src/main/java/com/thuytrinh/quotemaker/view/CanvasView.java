@@ -68,7 +68,7 @@ public class CanvasView extends FrameLayout {
             addView(newItemView);
 
             TextItem newItem = viewModel.items.get(changeInfo.positionStart);
-            newItem.delete.observe()
+            newItem.delete().observe()
                 .subscribe(new Action1<Object>() {
                   @Override
                   public void call(Object unused) {
