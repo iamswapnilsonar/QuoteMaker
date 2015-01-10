@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import java.util.Comparator;
+import java.util.Objects;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuoteTest extends AndroidTestCase {
@@ -51,7 +54,20 @@ public class QuoteTest extends AndroidTestCase {
     actualQuote.loadItems(databaseHelper);
     assertThat(actualQuote.items())
         .isNotEmpty()
-        .hasSize(expectedQuote.items().size());
+        .hasSize(expectedQuote.items().size())
+        .usingElementComparator(new Comparator<TextItem>() {
+          @Override
+          public int compare(TextItem lhs, TextItem rhs) {
+            return Objects.equals(lhs.text().getValue(), rhs.text().getValue()) &&
+                Objects.equals(lhs.fontPath().getValue(), rhs.fontPath().getValue()) &&
+                Objects.equals(lhs.size().getValue(), rhs.size().getValue()) &&
+                Objects.equals(lhs.x().getValue(), rhs.x().getValue()) &&
+                Objects.equals(lhs.y().getValue(), rhs.y().getValue()) &&
+                Objects.equals(lhs.gravity().getValue(), rhs.gravity().getValue())
+                ? 0 : 1;
+          }
+        })
+        .containsExactly(item0, item1);
 
     // Done!
     quoteCursor.close();
