@@ -59,7 +59,7 @@ public class CanvasView extends FrameLayout {
   }
 
   private void bind(final Quote viewModel) {
-    viewModel.items.onItemsInserted()
+    viewModel.items().onItemsInserted()
         .subscribe(new Action1<ChangeInfo>() {
           @Override
           public void call(ChangeInfo changeInfo) {
@@ -67,7 +67,7 @@ public class CanvasView extends FrameLayout {
                 .inflate(R.layout.view_text_item, CanvasView.this, false);
             addView(newItemView);
 
-            TextItem newItem = viewModel.items.get(changeInfo.positionStart);
+            TextItem newItem = viewModel.items().get(changeInfo.positionStart);
             newItem.delete().observe()
                 .subscribe(new Action1<Object>() {
                   @Override

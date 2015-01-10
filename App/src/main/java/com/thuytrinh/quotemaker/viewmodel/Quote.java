@@ -1,6 +1,7 @@
 package com.thuytrinh.quotemaker.viewmodel;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.squareup.otto.Subscribe;
@@ -20,9 +21,9 @@ public class Quote {
       Fields.BACKGROUND_COLOR
   });
 
-  public final ObservableProperty<Long> id = new ObservableProperty<>();
-  public final ObservableList<TextItem> items = new ObservableList<>(new ArrayList<TextItem>());
-  public final ObservableProperty<Integer> backgroundColor = new ObservableProperty<>(0xff018db1);
+  private final ObservableProperty<Long> id = new ObservableProperty<>();
+  private final ObservableList<TextItem> items = new ObservableList<>(new ArrayList<TextItem>());
+  private final ObservableProperty<Integer> backgroundColor = new ObservableProperty<>(0xff018db1);
 
   @Inject
   public Quote() {
@@ -41,6 +42,28 @@ public class Quote {
         });
   }
 
+  public Quote(Cursor cursor) {
+    this();
+
+    long id = cursor.getLong(cursor.getColumnIndex(Fields.ID.name));
+    int backgroundColor = cursor.getInt(cursor.getColumnIndex(Fields.BACKGROUND_COLOR.name));
+
+    this.id.setValue(id);
+    this.backgroundColor.setValue(backgroundColor);
+  }
+
+  public ObservableProperty<Long> id() {
+    return id;
+  }
+
+  public ObservableList<TextItem> items() {
+    return items;
+  }
+
+  public ObservableProperty<Integer> backgroundColor() {
+    return backgroundColor;
+  }
+
   @Subscribe
   public void onEvent(Theme selectedTheme) {
     backgroundColor.setValue(selectedTheme.getBackgroundColor());
@@ -49,15 +72,67 @@ public class Quote {
   // TODO: Should be observable.
   public void save(DatabaseHelper databaseHelper) {
     SQLiteDatabase database = databaseHelper.getWritableDatabase();
+    database.beginTransaction();
 
-    ContentValues values = new ContentValues();
-    values.put(Fields.BACKGROUND_COLOR.name, backgroundColor.getValue());
-
+    // Save the quote.
+    ContentValues quoteValues = toValues();
     if (!id.hasValue()) {
-      long newlyInsertedId = database.insertOrThrow(TABLE.name, null, values);
+      long newlyInsertedId = database.insertOrThrow(TABLE.name, null, quoteValues);
       id.setValue(newlyInsertedId);
     } else {
-      database.update(TABLE.name, values, "_id = ?", new String[] {id.getValue().toString()});
+      database.update(TABLE.name, quoteValues, "_id = ?", new String[] {id.getValue().toString()});
+    }
+
+    // And save its items.
+    saveItems(database);
+
+    // Done!
+    database.setTransactionSuccessful();
+    database.endTransaction();
+  }
+
+  public ContentValues toValues() {
+    ContentValues values = new ContentValues();
+    values.put(Fields.BACKGROUND_COLOR.name, backgroundColor.getValue());
+    return values;
+  }
+
+  // TODO: Should be observable.
+  public void loadItems(DatabaseHelper databaseHelper) {
+    // Remember to clear all previous items.
+    items.clear();
+
+    SQLiteDatabase database = databaseHelper.getReadableDatabase();
+    Cursor cursor = database.query(
+        TextItem.TABLE.name, null,
+        TextItem.Fields.QUOTE_ID + " = ?",
+        new String[] {id.getValue().toString()},
+        null, null, null
+    );
+    try {
+      while (cursor.moveToNext()) {
+        TextItem item = new TextItem(cursor);
+        items.add(item);
+      }
+    } finally {
+      if (!cursor.isClosed()) {
+        cursor.close();
+      }
+    }
+  }
+
+  private void saveItems(SQLiteDatabase database) {
+    // Delete old items first.
+    database.delete(
+        TextItem.TABLE.name,
+        TextItem.Fields.QUOTE_ID.name + " = ?",
+        new String[] {id.getValue().toString()}
+    );
+
+    // Save new items.
+    for (TextItem item : items) {
+      ContentValues itemValues = item.toValues(id.getValue());
+      database.insertOrThrow(TextItem.TABLE.name, null, itemValues);
     }
   }
 

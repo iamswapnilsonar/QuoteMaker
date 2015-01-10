@@ -80,7 +80,7 @@ public class CanvasFragment extends BaseFragment {
     super.onViewCreated(view, savedInstanceState);
 
     final View backgroundView = view.findViewById(R.id.backgroundView);
-    viewModel.backgroundColor.observe().subscribe(new Action1<Integer>() {
+    viewModel.backgroundColor().observe().subscribe(new Action1<Integer>() {
       @Override
       public void call(Integer color) {
         backgroundView.setBackgroundColor(color);
@@ -111,7 +111,7 @@ public class CanvasFragment extends BaseFragment {
             TextItem newItem = new TextItem();
             newItem.text().setValue(text.toString());
 
-            viewModel.items.add(newItem);
+            viewModel.items().add(newItem);
           }
         });
         fragment.show(getFragmentManager(), "addText");

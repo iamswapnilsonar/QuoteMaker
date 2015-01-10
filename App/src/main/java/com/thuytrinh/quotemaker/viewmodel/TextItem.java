@@ -2,6 +2,7 @@ package com.thuytrinh.quotemaker.viewmodel;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.view.Gravity;
 
@@ -19,7 +20,8 @@ public class TextItem {
       Fields.SIZE,
       Fields.X,
       Fields.Y,
-      Fields.GRAVITY
+      Fields.GRAVITY,
+      Fields.QUOTE_ID
   });
 
   private final ObservableProperty<String> text = new ObservableProperty<>();
@@ -29,6 +31,24 @@ public class TextItem {
   private final ObservableProperty<Float> y = new ObservableProperty<>(0f);
   private final ObservableProperty<Integer> gravity = new ObservableProperty<>(Gravity.CENTER);
   private final ObservableAction<Object> delete = new ObservableAction<>();
+
+  public TextItem() {}
+
+  public TextItem(Cursor cursor) {
+    String text = cursor.getString(cursor.getColumnIndex(Fields.TEXT.name));
+    String fontPath = cursor.getString(cursor.getColumnIndex(Fields.FONT_PATH.name));
+    float size = cursor.getFloat(cursor.getColumnIndex(Fields.SIZE.name));
+    float x = cursor.getFloat(cursor.getColumnIndex(Fields.X.name));
+    float y = cursor.getFloat(cursor.getColumnIndex(Fields.Y.name));
+    int gravity = cursor.getInt(cursor.getColumnIndex(Fields.GRAVITY.name));
+
+    this.text.setValue(text);
+    this.fontPath.setValue(fontPath);
+    this.size.setValue(size);
+    this.x.setValue(x);
+    this.y.setValue(y);
+    this.gravity.setValue(gravity);
+  }
 
   public ObservableProperty<String> text() {
     return text;
@@ -59,7 +79,7 @@ public class TextItem {
   }
 
   public Observable<Typeface> getTypeface(final Context appContext) {
-    return fontPath().observe()
+    return fontPath.observe()
         .map(new Func1<String, Typeface>() {
           @Override
           public Typeface call(String value) {
