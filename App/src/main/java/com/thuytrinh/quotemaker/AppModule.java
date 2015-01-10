@@ -7,8 +7,9 @@ import com.thuytrinh.quotemaker.fragment.CanvasFragment;
 import com.thuytrinh.quotemaker.fragment.FontPickerFragment;
 import com.thuytrinh.quotemaker.fragment.ThemePickerFragment;
 import com.thuytrinh.quotemaker.view.TextItemView;
+import com.thuytrinh.quotemaker.viewmodel.DatabaseHelper;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
-import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
+import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
 
 import javax.inject.Singleton;
@@ -23,7 +24,7 @@ import dagger.Provides;
     FontPickerFragment.class,
     FontsAdapter.class,
     ThemePicker.class,
-    QuoteEditor.class,
+    Quote.class,
     FontPicker.class
 }, library = true)
 public class AppModule {
@@ -42,5 +43,11 @@ public class AppModule {
   @Singleton
   Bus provideBus() {
     return new MainThreadBus();
+  }
+
+  @Provides
+  @Singleton
+  DatabaseHelper provideDatabaseHelper(Context context) {
+    return new DatabaseHelper(context, "app.db", 1);
   }
 }

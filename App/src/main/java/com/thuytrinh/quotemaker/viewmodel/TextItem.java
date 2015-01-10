@@ -1,6 +1,8 @@
 package com.thuytrinh.quotemaker.viewmodel;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.view.Gravity;
 
@@ -11,17 +13,69 @@ import rx.Observable;
 import rx.functions.Func1;
 
 public class TextItem {
-  public final ObservableProperty<CharSequence> text = new ObservableProperty<>();
-  public final ObservableProperty<String> fontPath = new ObservableProperty<>();
-  public final ObservableProperty<Float> x = new ObservableProperty<>(0f);
-  public final ObservableProperty<Float> y = new ObservableProperty<>(0f);
-  public final ObservableProperty<Integer> gravity = new ObservableProperty<>(Gravity.RIGHT);
-  public final ObservableProperty<Float> size = new ObservableProperty<>(45f);
-  public final ObservableAction<Object> delete = new ObservableAction<>();
+  public static final DbTable TABLE = new DbTable("TextItem", new DbField[] {
+      Fields.ID,
+      Fields.TEXT,
+      Fields.FONT_PATH,
+      Fields.SIZE,
+      Fields.X,
+      Fields.Y,
+      Fields.GRAVITY,
+      Fields.QUOTE_ID
+  });
 
-  public TextItem() {
-    // Default font.
-    fontPath.setValue("fonts/Anton.ttf");
+  private final ObservableProperty<String> text = new ObservableProperty<>();
+  private final ObservableProperty<String> fontPath = new ObservableProperty<>("fonts/Anton.ttf");
+  private final ObservableProperty<Float> size = new ObservableProperty<>(45f);
+  private final ObservableProperty<Float> x = new ObservableProperty<>(0f);
+  private final ObservableProperty<Float> y = new ObservableProperty<>(0f);
+  private final ObservableProperty<Integer> gravity = new ObservableProperty<>(Gravity.CENTER);
+  private final ObservableAction<Object> delete = new ObservableAction<>();
+
+  public TextItem() {}
+
+  public TextItem(Cursor cursor) {
+    String text = cursor.getString(cursor.getColumnIndex(Fields.TEXT.name));
+    String fontPath = cursor.getString(cursor.getColumnIndex(Fields.FONT_PATH.name));
+    float size = cursor.getFloat(cursor.getColumnIndex(Fields.SIZE.name));
+    float x = cursor.getFloat(cursor.getColumnIndex(Fields.X.name));
+    float y = cursor.getFloat(cursor.getColumnIndex(Fields.Y.name));
+    int gravity = cursor.getInt(cursor.getColumnIndex(Fields.GRAVITY.name));
+
+    this.text.setValue(text);
+    this.fontPath.setValue(fontPath);
+    this.size.setValue(size);
+    this.x.setValue(x);
+    this.y.setValue(y);
+    this.gravity.setValue(gravity);
+  }
+
+  public ObservableProperty<String> text() {
+    return text;
+  }
+
+  public ObservableProperty<Float> size() {
+    return size;
+  }
+
+  public ObservableProperty<String> fontPath() {
+    return fontPath;
+  }
+
+  public ObservableProperty<Float> x() {
+    return x;
+  }
+
+  public ObservableProperty<Float> y() {
+    return y;
+  }
+
+  public ObservableProperty<Integer> gravity() {
+    return gravity;
+  }
+
+  public ObservableAction<Object> delete() {
+    return delete;
   }
 
   public Observable<Typeface> getTypeface(final Context appContext) {
@@ -32,5 +86,32 @@ public class TextItem {
             return Typeface.createFromAsset(appContext.getAssets(), value);
           }
         });
+  }
+
+  public ContentValues toValues(long quoteId) {
+    ContentValues values = new ContentValues();
+    values.put(Fields.TEXT.name, text.getValue());
+    values.put(Fields.FONT_PATH.name, fontPath.getValue());
+    values.put(Fields.SIZE.name, size.getValue());
+    values.put(Fields.X.name, x.getValue());
+    values.put(Fields.Y.name, y.getValue());
+    values.put(Fields.GRAVITY.name, gravity.getValue());
+    values.put(Fields.QUOTE_ID.name, quoteId);
+    return values;
+  }
+
+  public static class Fields {
+    public static final DbField ID = new DbField("_id", "INTEGER", "PRIMARY KEY AUTOINCREMENT");
+    public static final DbField TEXT = new DbField("text", "TEXT");
+    public static final DbField FONT_PATH = new DbField("fontPath", "TEXT");
+    public static final DbField SIZE = new DbField("size", "REAL");
+    public static final DbField X = new DbField("x", "REAL");
+    public static final DbField Y = new DbField("y", "REAL");
+    public static final DbField GRAVITY = new DbField("gravity", "INTEGER");
+    public static final DbField QUOTE_ID = new DbField(
+        "quoteId",
+        "INTEGER",
+        "REFERENCES " + Quote.TABLE.name + "(" + Quote.Fields.ID + ")"
+    );
   }
 }

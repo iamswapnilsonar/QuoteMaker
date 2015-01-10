@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import com.thuytrinh.quotemaker.R;
-import com.thuytrinh.quotemaker.viewmodel.QuoteEditor;
+import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
 import com.thuytrinh.quotemaker.viewmodel.rx.ChangeInfo;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
@@ -17,7 +17,7 @@ import rx.Subscription;
 import rx.functions.Action1;
 
 public class CanvasView extends FrameLayout {
-  public final ObservableProperty<QuoteEditor> viewModel = new ObservableProperty<>();
+  public final ObservableProperty<Quote> viewModel = new ObservableProperty<>();
   private Subscription viewModelSubscription;
 
   public CanvasView(Context context) {
@@ -41,9 +41,9 @@ public class CanvasView extends FrameLayout {
   protected void onAttachedToWindow() {
     super.onAttachedToWindow();
 
-    viewModelSubscription = viewModel.observe().subscribe(new Action1<QuoteEditor>() {
+    viewModelSubscription = viewModel.observe().subscribe(new Action1<Quote>() {
       @Override
-      public void call(QuoteEditor viewModel) {
+      public void call(Quote viewModel) {
         bind(viewModel);
       }
     });
@@ -58,8 +58,8 @@ public class CanvasView extends FrameLayout {
     }
   }
 
-  private void bind(final QuoteEditor viewModel) {
-    viewModel.items.onItemsInserted()
+  private void bind(final Quote viewModel) {
+    viewModel.items().onItemsInserted()
         .subscribe(new Action1<ChangeInfo>() {
           @Override
           public void call(ChangeInfo changeInfo) {
@@ -67,8 +67,8 @@ public class CanvasView extends FrameLayout {
                 .inflate(R.layout.view_text_item, CanvasView.this, false);
             addView(newItemView);
 
-            TextItem newItem = viewModel.items.get(changeInfo.positionStart);
-            newItem.delete.observe()
+            TextItem newItem = viewModel.items().get(changeInfo.positionStart);
+            newItem.delete().observe()
                 .subscribe(new Action1<Object>() {
                   @Override
                   public void call(Object unused) {
