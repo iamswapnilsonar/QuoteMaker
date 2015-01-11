@@ -20,6 +20,10 @@ public class QuoteGallery {
     quotes = new ObservableProperty<>(new ObservableList<>(new ArrayList<Quote>()));
   }
 
+  public ObservableProperty<ObservableList<Quote>> quotes() {
+    return quotes;
+  }
+
   /**
    * Load quotes from database.
    */

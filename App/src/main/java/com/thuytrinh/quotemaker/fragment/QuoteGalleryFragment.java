@@ -7,6 +7,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.thuytrinh.quotemaker.ObjectCreator;
+import com.thuytrinh.quotemaker.QuotesAdapter;
 import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.viewmodel.QuoteGallery;
 
@@ -14,6 +15,7 @@ import javax.inject.Inject;
 
 public class QuoteGalleryFragment extends BaseFragment {
   @Inject QuoteGallery quoteGallery;
+  @Inject QuotesAdapter quotesAdapter;
 
   public QuoteGalleryFragment() {
     super(R.layout.fragment_quote_gallery);
@@ -23,6 +25,8 @@ public class QuoteGalleryFragment extends BaseFragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ObjectCreator.getGraph().inject(this);
+
+    quotesAdapter.viewModel.setValue(quoteGallery);
   }
 
   @Override
@@ -51,5 +55,6 @@ public class QuoteGalleryFragment extends BaseFragment {
 
     RecyclerView quotesView = (RecyclerView) view.findViewById(R.id.quotesView);
     quotesView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+    quotesView.setAdapter(quotesAdapter);
   }
 }
