@@ -23,7 +23,7 @@ public class QuotesFragment extends BaseFragment {
       public void onClick(View v) {
         getFragmentManager()
             .beginTransaction()
-            .add(android.R.id.content, new CanvasFragment())
+            .add(android.R.id.content, new QuoteEditorFragment())
             .addToBackStack("quoteEditor")
             .commit();
       }
