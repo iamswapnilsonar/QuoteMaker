@@ -5,6 +5,7 @@ import android.content.Context;
 import com.squareup.otto.Bus;
 import com.thuytrinh.quotemaker.fragment.FontPickerFragment;
 import com.thuytrinh.quotemaker.fragment.QuoteEditorFragment;
+import com.thuytrinh.quotemaker.fragment.QuoteGalleryFragment;
 import com.thuytrinh.quotemaker.fragment.ThemePickerFragment;
 import com.thuytrinh.quotemaker.view.TextItemView;
 import com.thuytrinh.quotemaker.viewmodel.DatabaseHelper;
@@ -20,10 +21,12 @@ import dagger.Provides;
 
 @Module(injects = {
     TextItemView.class,
+    QuoteGalleryFragment.class,
     QuoteEditorFragment.class,
     ThemePickerFragment.class,
     FontPickerFragment.class,
     FontsAdapter.class,
+    QuotesAdapter.class,
     ThemePicker.class,
     QuoteGallery.class,
     Quote.class,

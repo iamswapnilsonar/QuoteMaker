@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import com.thuytrinh.quotemaker.ObjectCreator;
 import com.thuytrinh.quotemaker.R;
 import com.thuytrinh.quotemaker.viewmodel.QuoteGallery;
 
@@ -16,6 +17,20 @@ public class QuoteGalleryFragment extends BaseFragment {
 
   public QuoteGalleryFragment() {
     super(R.layout.fragment_quote_gallery);
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ObjectCreator.getGraph().inject(this);
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+
+    // Should we load quotes at this point?
+    quoteGallery.loadQuotes();
   }
 
   @Override
