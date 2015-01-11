@@ -7,8 +7,13 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.thuytrinh.quotemaker.R;
+import com.thuytrinh.quotemaker.viewmodel.QuoteGallery;
+
+import javax.inject.Inject;
 
 public class QuotesFragment extends BaseFragment {
+  @Inject QuoteGallery quoteGallery;
+
   public QuotesFragment() {
     super(R.layout.fragment_quotes);
   }

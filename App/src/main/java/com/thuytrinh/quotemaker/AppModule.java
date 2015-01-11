@@ -10,6 +10,7 @@ import com.thuytrinh.quotemaker.view.TextItemView;
 import com.thuytrinh.quotemaker.viewmodel.DatabaseHelper;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
 import com.thuytrinh.quotemaker.viewmodel.Quote;
+import com.thuytrinh.quotemaker.viewmodel.QuoteGallery;
 import com.thuytrinh.quotemaker.viewmodel.ThemePicker;
 
 import javax.inject.Singleton;
@@ -24,6 +25,7 @@ import dagger.Provides;
     FontPickerFragment.class,
     FontsAdapter.class,
     ThemePicker.class,
+    QuoteGallery.class,
     Quote.class,
     FontPicker.class
 }, library = true)
