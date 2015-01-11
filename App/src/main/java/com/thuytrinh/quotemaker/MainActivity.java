@@ -3,7 +3,7 @@ package com.thuytrinh.quotemaker;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import com.thuytrinh.quotemaker.fragment.CanvasFragment;
+import com.thuytrinh.quotemaker.fragment.QuotesFragment;
 
 public class MainActivity extends ActionBarActivity {
   @Override
@@ -14,7 +14,7 @@ public class MainActivity extends ActionBarActivity {
     if (savedInstanceState == null) {
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, new CanvasFragment())
+          .add(R.id.container, new QuotesFragment())
           .commit();
     }
   }
