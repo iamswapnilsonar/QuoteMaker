@@ -48,13 +48,15 @@ public class QuoteTest extends AndroidTestCase {
     assertThat(itemCursor).isNotNull();
     assertThat(itemCursor.getCount()).isEqualTo(2);
 
-    // Make sure we persisted proper data.
     quoteCursor.moveToFirst();
+
     Quote actualQuote = new Quote(quoteCursor);
     assertThat(actualQuote.id().getValue())
         .isEqualTo(expectedQuote.id().getValue());
     assertThat(actualQuote.backgroundColor().getValue())
         .isEqualTo(expectedQuote.backgroundColor().getValue());
+    assertThat(actualQuote.snapshotFile().getValue())
+        .isEqualTo(expectedQuote.snapshotFile().getValue());
 
     actualQuote.loadItems(databaseHelper);
     assertThat(actualQuote.items())

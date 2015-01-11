@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableList;
@@ -24,7 +25,8 @@ import rx.functions.Action1;
 public class Quote {
   public static final DbTable TABLE = new DbTable("Quote", new DbField[] {
       Fields.ID,
-      Fields.BACKGROUND_COLOR
+      Fields.BACKGROUND_COLOR,
+      Fields.SNAPSHOT_PATH
   });
 
   private final ObservableProperty<Long> id = new ObservableProperty<>();
@@ -54,9 +56,14 @@ public class Quote {
 
     long id = cursor.getLong(cursor.getColumnIndex(Fields.ID.name));
     int backgroundColor = cursor.getInt(cursor.getColumnIndex(Fields.BACKGROUND_COLOR.name));
+    String snapshotPath = cursor.getString(cursor.getColumnIndex(Fields.SNAPSHOT_PATH.name));
 
     this.id.setValue(id);
     this.backgroundColor.setValue(backgroundColor);
+
+    if (!TextUtils.isEmpty(snapshotPath)) {
+      snapshotFile.setValue(new File(snapshotPath));
+    }
   }
 
   public ObservableProperty<Long> id() {
@@ -131,6 +138,11 @@ public class Quote {
   public ContentValues toValues() {
     ContentValues values = new ContentValues();
     values.put(Fields.BACKGROUND_COLOR.name, backgroundColor.getValue());
+
+    if (snapshotFile.hasValue()) {
+      values.put(Fields.SNAPSHOT_PATH.name, snapshotFile.getValue().getPath());
+    }
+
     return values;
   }
 
@@ -176,5 +188,6 @@ public class Quote {
   public static class Fields {
     public static final DbField ID = new DbField("_id", "INTEGER", "PRIMARY KEY AUTOINCREMENT");
     public static final DbField BACKGROUND_COLOR = new DbField("backgroundColor", "INTEGER");
+    public static final DbField SNAPSHOT_PATH = new DbField("snapshotPath", "TEXT");
   }
 }
