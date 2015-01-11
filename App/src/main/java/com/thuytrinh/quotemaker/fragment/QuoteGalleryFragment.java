@@ -11,11 +11,11 @@ import com.thuytrinh.quotemaker.viewmodel.QuoteGallery;
 
 import javax.inject.Inject;
 
-public class QuotesFragment extends BaseFragment {
+public class QuoteGalleryFragment extends BaseFragment {
   @Inject QuoteGallery quoteGallery;
 
-  public QuotesFragment() {
-    super(R.layout.fragment_quotes);
+  public QuoteGalleryFragment() {
+    super(R.layout.fragment_quote_gallery);
   }
 
   @Override
