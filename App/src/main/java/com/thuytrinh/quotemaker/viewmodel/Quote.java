@@ -3,27 +3,36 @@ package com.thuytrinh.quotemaker.viewmodel;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableList;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action1;
 
 public class Quote {
   public static final DbTable TABLE = new DbTable("Quote", new DbField[] {
       Fields.ID,
-      Fields.BACKGROUND_COLOR
+      Fields.BACKGROUND_COLOR,
+      Fields.SNAPSHOT_PATH
   });
 
   private final ObservableProperty<Long> id = new ObservableProperty<>();
   private final ObservableList<TextItem> items = new ObservableList<>(new ArrayList<TextItem>());
   private final ObservableProperty<Integer> backgroundColor = new ObservableProperty<>(0xff018db1);
+  private final ObservableProperty<File> snapshotFile = new ObservableProperty<>();
 
   @Inject
   public Quote() {
@@ -47,9 +56,14 @@ public class Quote {
 
     long id = cursor.getLong(cursor.getColumnIndex(Fields.ID.name));
     int backgroundColor = cursor.getInt(cursor.getColumnIndex(Fields.BACKGROUND_COLOR.name));
+    String snapshotPath = cursor.getString(cursor.getColumnIndex(Fields.SNAPSHOT_PATH.name));
 
     this.id.setValue(id);
     this.backgroundColor.setValue(backgroundColor);
+
+    if (!TextUtils.isEmpty(snapshotPath)) {
+      snapshotFile.setValue(new File(snapshotPath));
+    }
   }
 
   public ObservableProperty<Long> id() {
@@ -64,9 +78,39 @@ public class Quote {
     return backgroundColor;
   }
 
+  public ObservableProperty<File> snapshotFile() {
+    return snapshotFile;
+  }
+
   @Subscribe
   public void onEvent(Theme selectedTheme) {
     backgroundColor.setValue(selectedTheme.getBackgroundColor());
+  }
+
+  public Observable<File> saveSnapshot(@NonNull final Bitmap snapshot,
+                                       @NonNull final File dir) {
+    return Observable
+        .create(new Observable.OnSubscribe<File>() {
+          @Override
+          public void call(Subscriber<? super File> subscriber) {
+            // What if id is unavailable yet?
+            String name = String.format("snapshot_%d.png", id.getValue());
+            File snapshotFile = new File(dir, name);
+            try {
+              FileOutputStream stream = new FileOutputStream(snapshotFile);
+              snapshot.compress(Bitmap.CompressFormat.PNG, 100, stream);
+              stream.close();
+
+              // Done! Let's emit the result.
+              subscriber.onNext(snapshotFile);
+            } catch (IOException e) {
+              subscriber.onError(e);
+            }
+          }
+        })
+        .doOnNext(snapshotFile);
+
+    // TODO: Should we dispose the snapshot?
   }
 
   // TODO: Should be observable.
@@ -94,6 +138,11 @@ public class Quote {
   public ContentValues toValues() {
     ContentValues values = new ContentValues();
     values.put(Fields.BACKGROUND_COLOR.name, backgroundColor.getValue());
+
+    if (snapshotFile.hasValue()) {
+      values.put(Fields.SNAPSHOT_PATH.name, snapshotFile.getValue().getPath());
+    }
+
     return values;
   }
 
@@ -139,5 +188,6 @@ public class Quote {
   public static class Fields {
     public static final DbField ID = new DbField("_id", "INTEGER", "PRIMARY KEY AUTOINCREMENT");
     public static final DbField BACKGROUND_COLOR = new DbField("backgroundColor", "INTEGER");
+    public static final DbField SNAPSHOT_PATH = new DbField("snapshotPath", "TEXT");
   }
 }

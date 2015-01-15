@@ -3,10 +3,15 @@ package com.thuytrinh.quotemaker.viewmodel;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
+
+import rx.functions.Action1;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,13 +48,15 @@ public class QuoteTest extends AndroidTestCase {
     assertThat(itemCursor).isNotNull();
     assertThat(itemCursor.getCount()).isEqualTo(2);
 
-    // Make sure we persisted proper data.
     quoteCursor.moveToFirst();
+
     Quote actualQuote = new Quote(quoteCursor);
     assertThat(actualQuote.id().getValue())
         .isEqualTo(expectedQuote.id().getValue());
     assertThat(actualQuote.backgroundColor().getValue())
         .isEqualTo(expectedQuote.backgroundColor().getValue());
+    assertThat(actualQuote.snapshotFile().getValue())
+        .isEqualTo(expectedQuote.snapshotFile().getValue());
 
     actualQuote.loadItems(databaseHelper);
     assertThat(actualQuote.items())
@@ -82,5 +89,25 @@ public class QuoteTest extends AndroidTestCase {
 
     assertThat(values.getAsInteger(Quote.Fields.BACKGROUND_COLOR.name))
         .isEqualTo(quote.backgroundColor().getValue());
+  }
+
+  public void testSaveSnapshot() {
+    Quote quote = new Quote();
+    quote.id().setValue(123L);
+
+    final AtomicReference<File> snapshotFile = new AtomicReference<>();
+    quote.saveSnapshot(
+        Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888),
+        getContext().getFilesDir()
+    ).subscribe(new Action1<File>() {
+      @Override
+      public void call(File file) {
+        snapshotFile.set(file);
+      }
+    });
+
+    assertThat(snapshotFile.get()).isNotNull();
+    assertThat(snapshotFile.get().getName()).isEqualTo("snapshot_123.png");
+    assertThat(snapshotFile.get()).isEqualTo(quote.snapshotFile().getValue());
   }
 }

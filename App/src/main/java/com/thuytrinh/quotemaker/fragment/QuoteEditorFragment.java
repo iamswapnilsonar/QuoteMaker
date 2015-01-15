@@ -26,15 +26,15 @@ import javax.inject.Inject;
 
 import rx.functions.Action1;
 
-public class CanvasFragment extends BaseFragment {
+public class QuoteEditorFragment extends BaseFragment {
   @Inject Quote viewModel;
   @Inject Bus eventBus;
 
   private TextItem selectedItem;
   private View deleteView;
 
-  public CanvasFragment() {
-    super(R.layout.fragment_canvas);
+  public QuoteEditorFragment() {
+    super(R.layout.fragment_quote_editor);
   }
 
   /**
