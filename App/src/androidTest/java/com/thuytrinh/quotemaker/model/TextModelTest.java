@@ -15,9 +15,6 @@ public class TextModelTest extends AndroidTestCase {
     realm.beginTransaction();
 
     TextModel expected = realm.createObject(TextModel.class);
-    assertNotNull(expected);
-
-    // NPE took place here!
     expected.setText("Awesome!");
     expected.setFontPath("/awesome_font.ttf");
     expected.setSize(47f);
