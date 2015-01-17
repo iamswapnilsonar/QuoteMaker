@@ -4,6 +4,7 @@ import android.test.AndroidTestCase;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.internal.Table;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,6 +14,16 @@ public class TextModelTest extends AndroidTestCase {
     Realm realm = Realm.getInstance(getContext(), databaseFileName);
 
     realm.beginTransaction();
+
+    Table table = realm.getTable(TextModel.class);
+    assertThat(table.getName()).isEqualTo("class_TextModel");
+    assertThat(table.getColumnCount()).isEqualTo(6);
+    assertThat(table.getColumnName(table.getColumnIndex("text"))).isEqualTo("text");
+    assertThat(table.getColumnName(table.getColumnIndex("fontPath"))).isEqualTo("fontPath");
+    assertThat(table.getColumnName(table.getColumnIndex("size"))).isEqualTo("size");
+    assertThat(table.getColumnName(table.getColumnIndex("x"))).isEqualTo("x");
+    assertThat(table.getColumnName(table.getColumnIndex("y"))).isEqualTo("y");
+    assertThat(table.getColumnName(table.getColumnIndex("gravity"))).isEqualTo("gravity");
 
     TextModel expected = realm.createObject(TextModel.class);
     expected.setText("Awesome!");
