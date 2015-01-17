@@ -17,9 +17,10 @@ public class QuoteModelTest extends AndroidTestCase {
 
     Table table = realm.getTable(QuoteModel.class);
     assertThat(table.getName()).isEqualTo("class_QuoteModel");
-    assertThat(table.getColumnCount()).isEqualTo(2);
+    assertThat(table.getColumnCount()).isEqualTo(3);
     assertThat(table.getColumnName(table.getColumnIndex("backgroundColor"))).isEqualTo("backgroundColor");
     assertThat(table.getColumnName(table.getColumnIndex("snapshotFilePath"))).isEqualTo("snapshotFilePath");
+    assertThat(table.getColumnName(table.getColumnIndex("items"))).isEqualTo("items");
 
     QuoteModel expected = realm.createObject(QuoteModel.class);
     expected.setBackgroundColor(123456);
