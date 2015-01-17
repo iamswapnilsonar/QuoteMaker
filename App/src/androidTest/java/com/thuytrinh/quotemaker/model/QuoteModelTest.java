@@ -36,4 +36,34 @@ public class QuoteModelTest extends AndroidTestCase {
 
     Realm.deleteRealmFile(getContext(), databaseFileName);
   }
+
+  public void testShouldPersistTwoQuoteModels() {
+    String databaseFileName = "QuoteModelTest_" + System.currentTimeMillis();
+    Realm realm = Realm.getInstance(getContext(), databaseFileName);
+
+    realm.beginTransaction();
+
+    QuoteModel expected0 = realm.createObject(QuoteModel.class);
+    expected0.setBackgroundColor(12);
+    expected0.setSnapshotFilePath("/awesome_quote0.ttf");
+
+    QuoteModel expected1 = realm.createObject(QuoteModel.class);
+    expected1.setBackgroundColor(13);
+    expected1.setSnapshotFilePath("/awesome_quote1.ttf");
+
+    realm.commitTransaction();
+
+    RealmResults<QuoteModel> results = realm.where(QuoteModel.class).findAll();
+    assertThat(results).hasSize(2);
+
+    QuoteModel actual0 = results.first();
+    assertThat(actual0.getBackgroundColor()).isEqualTo(expected0.getBackgroundColor());
+    assertThat(actual0.getSnapshotFilePath()).isEqualTo(expected0.getSnapshotFilePath());
+
+    QuoteModel actual1 = results.last();
+    assertThat(actual1.getBackgroundColor()).isEqualTo(expected1.getBackgroundColor());
+    assertThat(actual1.getSnapshotFilePath()).isEqualTo(expected1.getSnapshotFilePath());
+
+    Realm.deleteRealmFile(getContext(), databaseFileName);
+  }
 }
