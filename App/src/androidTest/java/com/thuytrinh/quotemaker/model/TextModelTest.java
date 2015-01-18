@@ -9,11 +9,9 @@ import io.realm.internal.Table;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TextModelTest extends AndroidTestCase {
-  public void testShouldPersistTextModel() {
+  public void testShouldCreateTextModelTable() {
     String databaseFileName = "TextModelTest_" + System.currentTimeMillis();
     Realm realm = Realm.getInstance(getContext(), databaseFileName);
-
-    realm.beginTransaction();
 
     Table table = realm.getTable(TextModel.class);
     assertThat(table.getName()).isEqualTo("class_TextModel");
@@ -24,6 +22,15 @@ public class TextModelTest extends AndroidTestCase {
     assertThat(table.getColumnName(table.getColumnIndex("x"))).isEqualTo("x");
     assertThat(table.getColumnName(table.getColumnIndex("y"))).isEqualTo("y");
     assertThat(table.getColumnName(table.getColumnIndex("gravity"))).isEqualTo("gravity");
+
+    Realm.deleteRealmFile(getContext(), databaseFileName);
+  }
+
+  public void testShouldSaveTextModel() {
+    String databaseFileName = "TextModelTest_" + System.currentTimeMillis();
+    Realm realm = Realm.getInstance(getContext(), databaseFileName);
+
+    realm.beginTransaction();
 
     TextModel expected = realm.createObject(TextModel.class);
     expected.setText("Awesome!");

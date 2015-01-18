@@ -9,11 +9,9 @@ import io.realm.internal.Table;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuoteModelTest extends AndroidTestCase {
-  public void testShouldPersistQuoteModel() {
+  public void testShouldCreateQuoteModelTable() {
     String databaseFileName = "QuoteModelTest_" + System.currentTimeMillis();
     Realm realm = Realm.getInstance(getContext(), databaseFileName);
-
-    realm.beginTransaction();
 
     Table table = realm.getTable(QuoteModel.class);
     assertThat(table.getName()).isEqualTo("class_QuoteModel");
@@ -21,6 +19,15 @@ public class QuoteModelTest extends AndroidTestCase {
     assertThat(table.getColumnName(table.getColumnIndex("backgroundColor"))).isEqualTo("backgroundColor");
     assertThat(table.getColumnName(table.getColumnIndex("snapshotFilePath"))).isEqualTo("snapshotFilePath");
     assertThat(table.getColumnName(table.getColumnIndex("items"))).isEqualTo("items");
+
+    Realm.deleteRealmFile(getContext(), databaseFileName);
+  }
+
+  public void testShouldSaveQuoteModel() {
+    String databaseFileName = "QuoteModelTest_" + System.currentTimeMillis();
+    Realm realm = Realm.getInstance(getContext(), databaseFileName);
+
+    realm.beginTransaction();
 
     QuoteModel expected = realm.createObject(QuoteModel.class);
     expected.setBackgroundColor(123456);
@@ -38,7 +45,7 @@ public class QuoteModelTest extends AndroidTestCase {
     Realm.deleteRealmFile(getContext(), databaseFileName);
   }
 
-  public void testShouldPersistTwoQuoteModels() {
+  public void testShouldSaveTwoQuoteModels() {
     String databaseFileName = "QuoteModelTest_" + System.currentTimeMillis();
     Realm realm = Realm.getInstance(getContext(), databaseFileName);
 
