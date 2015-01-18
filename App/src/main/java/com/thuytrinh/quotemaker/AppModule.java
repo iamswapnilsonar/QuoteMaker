@@ -8,7 +8,6 @@ import com.thuytrinh.quotemaker.fragment.QuoteEditorFragment;
 import com.thuytrinh.quotemaker.fragment.QuoteGalleryFragment;
 import com.thuytrinh.quotemaker.fragment.ThemePickerFragment;
 import com.thuytrinh.quotemaker.view.TextItemView;
-import com.thuytrinh.quotemaker.viewmodel.DatabaseHelper;
 import com.thuytrinh.quotemaker.viewmodel.FontPicker;
 import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.QuoteGallery;
@@ -48,11 +47,5 @@ public class AppModule {
   @Singleton
   Bus provideBus() {
     return new MainThreadBus();
-  }
-
-  @Provides
-  @Singleton
-  DatabaseHelper provideDatabaseHelper(Context context) {
-    return new DatabaseHelper(context, "app.db", 1);
   }
 }

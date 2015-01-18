@@ -1,7 +1,5 @@
 package com.thuytrinh.quotemaker.viewmodel;
 
-import android.support.annotation.NonNull;
-
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableList;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
@@ -12,11 +10,9 @@ import javax.inject.Inject;
 
 public class QuoteGallery {
   private final ObservableProperty<ObservableList<Quote>> quotes;
-  private final DatabaseHelper databaseHelper;
 
   @Inject
-  public QuoteGallery(@NonNull DatabaseHelper databaseHelper) {
-    this.databaseHelper = databaseHelper;
+  public QuoteGallery() {
     quotes = new ObservableProperty<>(new ObservableList<>(new ArrayList<Quote>()));
   }
 
