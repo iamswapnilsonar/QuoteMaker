@@ -1,5 +1,6 @@
 package com.thuytrinh.quotemaker.viewmodel;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
@@ -92,6 +93,7 @@ public class Quote {
 
           // Done! Let's emit the result.
           subscriber.onNext(snapshotFile);
+          subscriber.onCompleted();
         } catch (IOException e) {
           subscriber.onError(e);
         }
@@ -99,12 +101,19 @@ public class Quote {
     }).doOnNext(snapshotFile);
   }
 
-  public Observable<Object> save(@NonNull final Realm realm) {
+  public Observable<Object> save(final Context context) {
     return Observable.create(new Observable.OnSubscribe<Object>() {
       @Override
       public void call(Subscriber<? super Object> subscriber) {
+        Realm realm = Realm.getInstance(context);
         realm.beginTransaction();
+
+        QuoteModel model = realm.createObject(QuoteModel.class);
+        model.setBackgroundColor(backgroundColor.getValue());
+        model.setSnapshotFilePath(snapshotFile.getValue().getPath());
+
         realm.commitTransaction();
+        subscriber.onCompleted();
       }
     });
   }

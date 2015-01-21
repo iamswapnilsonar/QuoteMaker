@@ -1,8 +1,6 @@
 package com.thuytrinh.quotemaker.fragment;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Pair;
@@ -19,12 +17,15 @@ import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import javax.inject.Inject;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
 
 public class QuoteEditorFragment extends BaseFragment {
   @Inject Quote viewModel;
@@ -123,28 +124,30 @@ public class QuoteEditorFragment extends BaseFragment {
 
     final View quoteView = view.findViewById(R.id.quoteView);
     View saveButton = view.findViewById(R.id.saveButton);
-
-    // TODO: Test it on a real device.
     saveButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         quoteView.buildDrawingCache();
         Bitmap snapshot = quoteView.getDrawingCache();
 
-        File file = new File(getActivity().getFilesDir(), "snapshot_" + System.currentTimeMillis());
-        try {
-          FileOutputStream stream = new FileOutputStream(file);
-          snapshot.compress(Bitmap.CompressFormat.PNG, 100, stream);
-          stream.close();
-
-          Intent shareIntent = new Intent();
-          shareIntent.setAction(Intent.ACTION_SEND);
-          shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-          shareIntent.setType("image/*");
-          startActivity(shareIntent);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+        Observable.combineLatest(
+            viewModel.saveSnapshot(snapshot, getActivity().getFilesDir()),
+            viewModel.save(getActivity()),
+            new Func2<File, Object, Object>() {
+              @Override
+              public Object call(File snapshotFile, Object unused) {
+                return snapshotFile;
+              }
+            })
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .finallyDo(new Action0() {
+              @Override
+              public void call() {
+                getFragmentManager().popBackStackImmediate();
+              }
+            })
+            .subscribe();
       }
     });
 
