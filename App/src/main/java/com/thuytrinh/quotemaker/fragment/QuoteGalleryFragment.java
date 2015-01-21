@@ -13,6 +13,9 @@ import com.thuytrinh.quotemaker.viewmodel.QuoteGallery;
 
 import javax.inject.Inject;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 public class QuoteGalleryFragment extends BaseFragment {
   @Inject QuoteGallery quoteGallery;
   @Inject QuotesAdapter quotesAdapter;
@@ -33,8 +36,10 @@ public class QuoteGalleryFragment extends BaseFragment {
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    // Should we load quotes at this point?
-    quoteGallery.loadQuotes();
+    quoteGallery.loadQuotes(getActivity())
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe();
   }
 
   @Override

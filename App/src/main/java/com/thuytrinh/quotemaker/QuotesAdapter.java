@@ -32,6 +32,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                   @Override
                   public void call(ObservableList<Quote> value) {
                     quotes = value;
+                    notifyDataSetChanged();
                   }
                 });
           }
@@ -47,6 +48,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
+    holder.itemView.setBackgroundResource(position % 2 == 0 ? R.color.teal : R.color.royal_blue);
   }
 
   @Override
