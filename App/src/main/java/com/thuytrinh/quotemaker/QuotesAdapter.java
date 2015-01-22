@@ -47,8 +47,15 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
+  public void onBindViewHolder(ViewHolder holder, final int position) {
     holder.itemView.setBackgroundResource(position % 2 == 0 ? R.color.teal : R.color.royal_blue);
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Quote quote = quotes.get(position);
+        viewModel.getValue().openQuote().call(quote);
+      }
+    });
   }
 
   @Override

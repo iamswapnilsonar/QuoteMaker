@@ -9,11 +9,13 @@ import android.view.View;
 import com.thuytrinh.quotemaker.ObjectCreator;
 import com.thuytrinh.quotemaker.QuotesAdapter;
 import com.thuytrinh.quotemaker.R;
+import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.QuoteGallery;
 
 import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class QuoteGalleryFragment extends BaseFragment {
@@ -30,6 +32,16 @@ public class QuoteGalleryFragment extends BaseFragment {
     ObjectCreator.getGraph().inject(this);
 
     quotesAdapter.viewModel.setValue(quoteGallery);
+    quoteGallery.openQuote().observe().subscribe(new Action1<Quote>() {
+      @Override
+      public void call(Quote quote) {
+        getFragmentManager()
+            .beginTransaction()
+            .add(android.R.id.content, new QuoteEditorFragment())
+            .addToBackStack("quoteEditor")
+            .commit();
+      }
+    });
   }
 
   @Override

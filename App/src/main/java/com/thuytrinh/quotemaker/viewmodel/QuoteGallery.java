@@ -3,6 +3,7 @@ package com.thuytrinh.quotemaker.viewmodel;
 import android.content.Context;
 
 import com.thuytrinh.quotemaker.model.QuoteModel;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableAction;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableList;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
@@ -19,6 +20,7 @@ import rx.functions.Action1;
 
 public class QuoteGallery {
   private final ObservableProperty<ObservableList<Quote>> quotes;
+  private final ObservableAction<Quote> openQuote = new ObservableAction<>();
 
   @Inject
   public QuoteGallery() {
@@ -51,5 +53,9 @@ public class QuoteGallery {
         subscriber.onCompleted();
       }
     });
+  }
+
+  public ObservableAction<Quote> openQuote() {
+    return openQuote;
   }
 }
