@@ -13,6 +13,7 @@ import com.thuytrinh.quotemaker.viewmodel.TextItem;
 import com.thuytrinh.quotemaker.viewmodel.rx.ChangeInfo;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -59,6 +60,24 @@ public class CanvasView extends FrameLayout {
   }
 
   private void bind(final Quote viewModel) {
+    Observable.from(viewModel.items())
+        .subscribe(new Action1<TextItem>() {
+          @Override
+          public void call(TextItem newItem) {
+            final TextItemView newItemView = (TextItemView) LayoutInflater.from(getContext())
+                .inflate(R.layout.view_text_item, CanvasView.this, false);
+            addView(newItemView);
+
+            newItem.delete().observe()
+                .subscribe(new Action1<Object>() {
+                  @Override
+                  public void call(Object unused) {
+                    removeView(newItemView);
+                  }
+                });
+            newItemView.viewModel.setValue(newItem);
+          }
+        });
     viewModel.items().onItemsInserted()
         .subscribe(new Action1<ChangeInfo>() {
           @Override

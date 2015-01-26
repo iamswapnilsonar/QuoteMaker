@@ -3,9 +3,11 @@ package com.thuytrinh.quotemaker.viewmodel;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.squareup.otto.Subscribe;
 import com.thuytrinh.quotemaker.model.QuoteModel;
+import com.thuytrinh.quotemaker.model.TextModel;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableList;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
@@ -20,12 +22,15 @@ import io.realm.Realm;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 public class Quote {
   private final ObservableProperty<Long> id = new ObservableProperty<>();
   private final ObservableList<TextItem> items = new ObservableList<>(new ArrayList<TextItem>());
   private final ObservableProperty<Integer> backgroundColor = new ObservableProperty<>(0xff018db1);
   private final ObservableProperty<File> snapshotFile = new ObservableProperty<>();
+
+  private QuoteModel model;
 
   @Inject
   public Quote() {
@@ -47,14 +52,20 @@ public class Quote {
   public Quote(QuoteModel model) {
     this();
 
-    /*
-    this.id.setValue(id);
-    this.backgroundColor.setValue(backgroundColor);
-
-    if (!TextUtils.isEmpty(snapshotPath)) {
-      snapshotFile.setValue(new File(snapshotPath));
+    backgroundColor.setValue(model.getBackgroundColor());
+    if (!TextUtils.isEmpty(model.getSnapshotFilePath())) {
+      snapshotFile.setValue(new File(model.getSnapshotFilePath()));
     }
-    */
+
+    Observable.from(model.getItems())
+        .subscribe(new Action1<TextModel>() {
+          @Override
+          public void call(TextModel model) {
+            items.add(new TextItem(model));
+          }
+        });
+
+    this.model = model;
   }
 
   public ObservableProperty<Long> id() {
@@ -91,7 +102,6 @@ public class Quote {
           snapshot.compress(Bitmap.CompressFormat.PNG, 100, stream);
           stream.close();
 
-          // Done! Let's emit the result.
           subscriber.onNext(snapshotFile);
           subscriber.onCompleted();
         } catch (IOException e) {
@@ -101,16 +111,34 @@ public class Quote {
     }).doOnNext(snapshotFile);
   }
 
-  public Observable<Object> save(final Context context) {
+  public Observable<Object> save(final Context appContext) {
     return Observable.create(new Observable.OnSubscribe<Object>() {
       @Override
       public void call(Subscriber<? super Object> subscriber) {
-        Realm realm = Realm.getInstance(context);
+        final Realm realm = Realm.getInstance(appContext);
         realm.beginTransaction();
 
-        QuoteModel model = realm.createObject(QuoteModel.class);
+        if (model == null) {
+          model = realm.createObject(QuoteModel.class);
+        }
+
         model.setBackgroundColor(backgroundColor.getValue());
         model.setSnapshotFilePath(snapshotFile.getValue().getPath());
+
+        Observable.from(items)
+            .flatMap(new Func1<TextItem, Observable<TextModel>>() {
+              @Override
+              public Observable<TextModel> call(TextItem item) {
+                // Should we do this?
+                return item.save(realm);
+              }
+            })
+            .subscribe(new Action1<TextModel>() {
+              @Override
+              public void call(TextModel itemModel) {
+                model.getItems().add(itemModel);
+              }
+            });
 
         realm.commitTransaction();
         subscriber.onCompleted();

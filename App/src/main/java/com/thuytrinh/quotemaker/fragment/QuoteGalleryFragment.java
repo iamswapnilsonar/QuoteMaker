@@ -35,9 +35,12 @@ public class QuoteGalleryFragment extends BaseFragment {
     quoteGallery.openQuote().observe().subscribe(new Action1<Quote>() {
       @Override
       public void call(Quote quote) {
+        QuoteEditorFragment fragment = new QuoteEditorFragment();
+        fragment.viewModel.setValue(quote);
+
         getFragmentManager()
             .beginTransaction()
-            .add(android.R.id.content, new QuoteEditorFragment())
+            .add(android.R.id.content, fragment)
             .addToBackStack("quoteEditor")
             .commit();
       }
@@ -62,9 +65,12 @@ public class QuoteGalleryFragment extends BaseFragment {
     addQuoteButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        QuoteEditorFragment fragment = new QuoteEditorFragment();
+        fragment.viewModel.setValue(new Quote());
+
         getFragmentManager()
             .beginTransaction()
-            .add(android.R.id.content, new QuoteEditorFragment())
+            .add(android.R.id.content, fragment)
             .addToBackStack("quoteEditor")
             .commit();
       }

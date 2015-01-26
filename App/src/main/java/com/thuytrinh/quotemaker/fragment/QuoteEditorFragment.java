@@ -15,6 +15,7 @@ import com.thuytrinh.quotemaker.view.TextItemView;
 import com.thuytrinh.quotemaker.viewmodel.FontItem;
 import com.thuytrinh.quotemaker.viewmodel.Quote;
 import com.thuytrinh.quotemaker.viewmodel.TextItem;
+import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
 import java.io.File;
 
@@ -28,7 +29,7 @@ import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 public class QuoteEditorFragment extends BaseFragment {
-  @Inject Quote viewModel;
+  public final ObservableProperty<Quote> viewModel = new ObservableProperty<>();
   @Inject Bus eventBus;
 
   private TextItem selectedItem;
@@ -77,77 +78,82 @@ public class QuoteEditorFragment extends BaseFragment {
   }
 
   @Override
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+  public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    final View backgroundView = view.findViewById(R.id.backgroundView);
-    viewModel.backgroundColor().observe().subscribe(new Action1<Integer>() {
+    viewModel.observe().subscribe(new Action1<Quote>() {
       @Override
-      public void call(Integer color) {
-        backgroundView.setBackgroundColor(color);
-      }
-    });
-
-    View chooseBackgroundButton = view.findViewById(R.id.chooseBackgroundButton);
-    chooseBackgroundButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        ThemePickerFragment themePickerFragment = new ThemePickerFragment();
-        getFragmentManager()
-            .beginTransaction()
-            .add(android.R.id.content, themePickerFragment)
-            .addToBackStack("themePicker")
-            .commit();
-      }
-    });
-
-    View addTextButton = view.findViewById(R.id.addTextButton);
-    addTextButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        ChangeTextFragment fragment = new ChangeTextFragment();
-        fragment.onDone().subscribe(new Action1<CharSequence>() {
+      public void call(final Quote viewModel) {
+        final View backgroundView = view.findViewById(R.id.backgroundView);
+        viewModel.backgroundColor().observe().subscribe(new Action1<Integer>() {
           @Override
-          public void call(CharSequence text) {
-            TextItem newItem = new TextItem();
-            newItem.text().setValue(text.toString());
-
-            viewModel.items().add(newItem);
+          public void call(Integer color) {
+            backgroundView.setBackgroundColor(color);
           }
         });
-        fragment.show(getFragmentManager(), "addText");
-      }
-    });
 
-    CanvasView canvasView = (CanvasView) view.findViewById(R.id.canvasView);
-    canvasView.viewModel.setValue(viewModel);
+        View chooseBackgroundButton = view.findViewById(R.id.chooseBackgroundButton);
+        chooseBackgroundButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            ThemePickerFragment themePickerFragment = new ThemePickerFragment();
+            getFragmentManager()
+                .beginTransaction()
+                .add(android.R.id.content, themePickerFragment)
+                .addToBackStack("themePicker")
+                .commit();
+          }
+        });
 
-    final View quoteView = view.findViewById(R.id.quoteView);
-    View saveButton = view.findViewById(R.id.saveButton);
-    saveButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        quoteView.buildDrawingCache();
-        Bitmap snapshot = quoteView.getDrawingCache();
-
-        Observable.combineLatest(
-            viewModel.saveSnapshot(snapshot, getActivity().getFilesDir()),
-            viewModel.save(getActivity()),
-            new Func2<File, Object, Object>() {
+        View addTextButton = view.findViewById(R.id.addTextButton);
+        addTextButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            ChangeTextFragment fragment = new ChangeTextFragment();
+            fragment.onDone().subscribe(new Action1<CharSequence>() {
               @Override
-              public Object call(File snapshotFile, Object unused) {
-                return snapshotFile;
+              public void call(CharSequence text) {
+                TextItem newItem = new TextItem();
+                newItem.text().setValue(text.toString());
+
+                viewModel.items().add(newItem);
               }
-            })
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .finallyDo(new Action0() {
-              @Override
-              public void call() {
-                getFragmentManager().popBackStackImmediate();
-              }
-            })
-            .subscribe();
+            });
+            fragment.show(getFragmentManager(), "addText");
+          }
+        });
+
+        CanvasView canvasView = (CanvasView) view.findViewById(R.id.canvasView);
+        canvasView.viewModel.setValue(viewModel);
+
+        final View quoteView = view.findViewById(R.id.quoteView);
+        View saveButton = view.findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            quoteView.buildDrawingCache();
+            Bitmap snapshot = quoteView.getDrawingCache();
+
+            Observable.combineLatest(
+                viewModel.saveSnapshot(snapshot, getActivity().getFilesDir()),
+                viewModel.save(getActivity()),
+                new Func2<File, Object, Object>() {
+                  @Override
+                  public Object call(File snapshotFile, Object unused) {
+                    return snapshotFile;
+                  }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .finallyDo(new Action0() {
+                  @Override
+                  public void call() {
+                    getFragmentManager().popBackStackImmediate();
+                  }
+                })
+                .subscribe();
+          }
+        });
       }
     });
 

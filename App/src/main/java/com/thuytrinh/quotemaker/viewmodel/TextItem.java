@@ -2,13 +2,16 @@ package com.thuytrinh.quotemaker.viewmodel;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 
 import com.thuytrinh.quotemaker.model.TextModel;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableAction;
 import com.thuytrinh.quotemaker.viewmodel.rx.ObservableProperty;
 
+import io.realm.Realm;
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Func1;
 
 public class TextItem {
@@ -20,19 +23,21 @@ public class TextItem {
   private final ObservableProperty<Integer> gravity = new ObservableProperty<>(Gravity.CENTER);
   private final ObservableAction<Object> delete = new ObservableAction<>();
 
+  private TextModel model;
+
   public TextItem() {}
 
-  public TextItem(TextModel model) {
+  public TextItem(@NonNull TextModel model) {
     this();
 
-    /*
-    this.text.setValue(text);
-    this.fontPath.setValue(fontPath);
-    this.size.setValue(size);
-    this.x.setValue(x);
-    this.y.setValue(y);
-    this.gravity.setValue(gravity);
-    */
+    text.setValue(model.getText());
+    fontPath.setValue(model.getFontPath());
+    size.setValue(model.getSize());
+    x.setValue(model.getX());
+    y.setValue(model.getY());
+    gravity.setValue(model.getGravity());
+
+    this.model = model;
   }
 
   public ObservableProperty<String> text() {
@@ -71,5 +76,26 @@ public class TextItem {
             return Typeface.createFromAsset(appContext.getAssets(), value);
           }
         });
+  }
+
+  public Observable<TextModel> save(@NonNull final Realm realm) {
+    return Observable.create(new Observable.OnSubscribe<TextModel>() {
+      @Override
+      public void call(Subscriber<? super TextModel> subscriber) {
+        if (model == null) {
+          model = realm.createObject(TextModel.class);
+        }
+
+        model.setText(text.getValue());
+        model.setSize(size.getValue());
+        model.setFontPath(fontPath.getValue());
+        model.setX(x.getValue());
+        model.setY(y.getValue());
+        model.setGravity(gravity.getValue());
+
+        subscriber.onNext(model);
+        subscriber.onCompleted();
+      }
+    });
   }
 }
